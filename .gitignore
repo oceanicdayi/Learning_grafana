@@ -1,0 +1,35 @@
+# Ignore Docker volumes and generated files
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Ignore temporary files
+/tmp/
+*.tmp
+
+# Ignore logs
+*.log
+logs/
+
+# Ignore environment files with secrets
+.env
+.env.local
+.env.*.local
+
+# Ignore IDE settings
+.vscode/
+.idea/
+*.iml
+
+# Ignore OS files
+Thumbs.db
+
+# Ignore backup files
+*.bak
+*.backup
+
+# Docker volumes (if extracted locally)
+grafana-storage/
+prometheus-storage/
+mysql-storage/
