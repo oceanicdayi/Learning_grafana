@@ -1,27 +1,28 @@
-# Quick Start Guide
+# 快速開始指南
 
-Get up and running with Grafana in 10 minutes!
+10 分鐘內完成 Grafana 環境並建立第一個儀表板！
 
-## Prerequisites
+## 先決條件
 
-- Docker and Docker Compose installed
-- 5 minutes of your time
+- 已安裝 Docker 與 Docker Compose
+- 可用的 3000/9090/3306 連接埠
+- 約 5-10 分鐘的時間
 
-## Step 1: Clone and Start (2 minutes)
+## 步驟 1：下載並啟動（2 分鐘）
 
 ```bash
-# Clone the repository
+# 取得專案
 git clone https://github.com/oceanicdayi/Learning_grafana.git
 cd Learning_grafana
 
-# Start the stack
+# 啟動服務
 docker-compose up -d
 
-# Verify services are running
+# 確認服務狀態
 docker-compose ps
 ```
 
-Expected output:
+預期輸出：
 ```
 NAME            STATUS
 grafana         Up
@@ -30,243 +31,243 @@ prometheus      Up
 node-exporter   Up
 ```
 
-## Step 2: Access Grafana (1 minute)
+## 步驟 2：進入 Grafana（1 分鐘）
 
-1. Open your browser to: `http://localhost:3000`
-2. Login:
-   - **Username**: admin
-   - **Password**: admin
-3. Skip password change (or set a new one)
+1. 開啟瀏覽器：`http://localhost:3000`
+2. 登入資訊：
+   - **帳號**：admin
+   - **密碼**：admin
+3. 可先略過密碼更改（或立即修改）
 
-## Step 3: Verify Data Sources (1 minute)
+## 步驟 3：確認資料來源（1 分鐘）
 
-1. Click ⚙️ (Configuration) in left sidebar
-2. Click "Data sources"
-3. You should see:
-   - ✅ Prometheus (Default)
+1. 左側點擊 ⚙️（Configuration）
+2. 選擇「Data sources」
+3. 應看到：
+   - ✅ Prometheus（預設）
    - ✅ MySQL Demo
 
-## Step 4: Create Your First Panel (3 minutes)
+## 步驟 4：建立第一個面板（3 分鐘）
 
-1. Click **+** (Create) → **Dashboard**
-2. Click **Add new panel**
+1. 點擊 **+**（Create）→ **Dashboard**
+2. 點擊 **Add new panel**
 
-### Configure the Panel:
+### 面板設定
 
-**Query Section:**
-- Data source: Select "Prometheus"
-- Query: Enter this:
+**查詢區塊：**
+- 資料來源：選擇「Prometheus」
+- 查詢：
   ```promql
   100 - (avg(irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
   ```
 
-**Panel Options:**
-- Title: "CPU Usage"
+**面板選項：**
+- 標題：「CPU 使用率」
 
-**Right Sidebar:**
-- Visualization: Select "Gauge"
-- Unit: "Percent (0-100)"
-- Thresholds:
-  - Add threshold: 70 (Yellow)
-  - Add threshold: 85 (Red)
+**右側設定：**
+- 視覺化：選擇「Gauge」
+- 單位：Percent (0-100)
+- 閾值：
+  - 70（黃色）
+  - 85（紅色）
 
-3. Click **Apply** (top right)
-4. Click **💾 Save dashboard**
-5. Name: "My First Dashboard"
-6. Click **Save**
+3. 點擊 **Apply**（右上）
+4. 點擊 **💾 Save dashboard**
+5. 命名：「我的第一個儀表板」
+6. 點擊 **Save**
 
-## Step 5: Add More Panels (3 minutes)
+## 步驟 5：新增更多面板（3 分鐘）
 
-### Memory Usage Panel
+### 記憶體使用率面板
 
-1. Click **Add panel** → **Add new panel**
-2. Query:
+1. 點擊 **Add panel** → **Add new panel**
+2. 查詢：
    ```promql
    (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100
    ```
-3. Title: "Memory Usage"
-4. Visualization: Gauge
-5. Unit: Percent (0-100)
-6. Thresholds: 70 (Yellow), 90 (Red)
-7. Click **Apply**
+3. 標題：「記憶體使用率」
+4. 視覺化：Gauge
+5. 單位：Percent (0-100)
+6. 閾值：70（黃）、90（紅）
+7. 點擊 **Apply**
 
-### Network Traffic Panel
+### 網路流量面板
 
-1. Click **Add panel** → **Add new panel**
-2. Query A:
+1. 點擊 **Add panel** → **Add new panel**
+2. Query A：
    ```promql
    rate(node_network_receive_bytes_total{device!="lo"}[5m])
    ```
-3. Query B (click "+ Query"):
+3. Query B（點擊「+ Query」）：
    ```promql
    rate(node_network_transmit_bytes_total{device!="lo"}[5m])
    ```
-4. Title: "Network Traffic"
-5. Visualization: Time series
-6. Unit: bytes/sec
-7. Click **Apply**
+4. 標題：「網路流量」
+5. 視覺化：Time series
+6. 單位：bytes/sec
+7. 點擊 **Apply**
 
-### Save Dashboard
+### 儲存儀表板
 
-Click **💾 Save dashboard** (top right)
+點擊 **💾 Save dashboard**（右上）
 
-## Step 6: Explore Data (Bonus)
+## 步驟 6：探索資料（加分）
 
-### View MySQL Data
+### 查看 MySQL 範例資料
 
-1. Click **Explore** (compass icon in sidebar)
-2. Select data source: "MySQL Demo"
-3. Query:
+1. 點擊 **Explore**（左側指南針）
+2. 選擇資料來源：「MySQL Demo」
+3. 查詢：
    ```sql
    SELECT * FROM page_views ORDER BY timestamp DESC LIMIT 10
    ```
-4. Click **Run query**
+4. 點擊 **Run query**
 
-You'll see sample website analytics data!
+你會看到網站分析的範例資料！
 
-## Next Steps
+## 下一步
 
-### Learn More
+### 繼續學習
 
-📚 Read the [Full Tutorial](TUTORIAL.md) for comprehensive guide
+📚 閱讀 [完整教學](TUTORIAL.md) 深入了解功能
 
-📊 Check [Example Queries](examples/EXAMPLE_QUERIES.md) for more query examples
+📊 查看 [查詢範例](examples/EXAMPLE_QUERIES.md) 練習 SQL/PromQL
 
-🔍 Read [Dashboard Analysis Guide](DASHBOARD_ANALYSIS.md) to understand dashboards
+🔍 參考 [儀表板分析指南](DASHBOARD_ANALYSIS.md) 提升分析能力
 
-### Import Pre-built Dashboards
+### 匯入社群儀表板
 
-1. Go to **+** → **Import**
-2. Enter dashboard ID: **1860** (Node Exporter Full)
-3. Click **Load**
-4. Select Prometheus data source
-5. Click **Import**
+1. 點擊 **+** → **Import**
+2. 輸入儀表板 ID：**1860**（Node Exporter Full）
+3. 點擊 **Load**
+4. 選擇 Prometheus 資料來源
+5. 點擊 **Import**
 
-### Create More Dashboards
+### 自建更多儀表板
 
-Try creating dashboards for:
-- Website analytics (using MySQL data)
-- System monitoring (using Prometheus)
-- Custom metrics
+可嘗試以下主題：
+- 網站分析（MySQL）
+- 系統監控（Prometheus）
+- 自訂指標（或自建資料）
 
-## Troubleshooting
+## 疑難排解
 
-### Services Not Starting
+### 服務無法啟動
 
 ```bash
-# Check Docker is running
+# 確認 Docker 有在執行
 docker ps
 
-# Check logs
+# 查看日誌
 docker-compose logs grafana
 docker-compose logs mysql
 docker-compose logs prometheus
 
-# Restart services
+# 重啟服務
 docker-compose restart
 ```
 
-### Can't Access Grafana
+### 無法進入 Grafana
 
-- Verify Docker containers are running: `docker-compose ps`
-- Check port 3000 is not in use: `lsof -i :3000`
-- Try accessing: `http://127.0.0.1:3000`
+- 確認容器已啟動：`docker-compose ps`
+- 確認 3000 連接埠未被占用：`lsof -i :3000`
+- 嘗試使用：http://127.0.0.1:3000
 
-### No Data in Panels
+### 面板沒有資料
 
-- Wait 1-2 minutes for Prometheus to scrape metrics
-- Check time range (use "Last 5 minutes")
-- Verify data sources are connected (green checkmark)
+- 等待 1-2 分鐘讓 Prometheus 收集資料
+- 確認時間範圍（建議「最近 5 分鐘」）
+- 確認資料來源顯示綠色勾勾
 
-### Data Source Connection Failed
+### 資料來源連線失敗
 
 ```bash
-# Restart the specific service
+# 重啟指定服務
 docker-compose restart prometheus
 docker-compose restart mysql
 
-# Check if services can communicate
+# 確認 Grafana 與服務互通
 docker-compose exec grafana ping prometheus
 ```
 
-## Clean Up
+## 清理環境
 
-When you're done:
+完成後可停止服務：
 
 ```bash
-# Stop all services
+# 停止全部服務
 docker-compose down
 
-# Remove all data (fresh start)
+# 同時移除資料（重置環境）
 docker-compose down -v
 ```
 
-## What You've Learned
+## 你已完成的學習內容
 
-✅ How to start Grafana with Docker  
-✅ How to access Grafana web interface  
-✅ How to verify data sources  
-✅ How to create panels with queries  
-✅ How to use different visualizations  
-✅ How to save dashboards  
+✅ 使用 Docker 啟動 Grafana  
+✅ 進入 Grafana Web 介面  
+✅ 檢查資料來源  
+✅ 建立第一個面板  
+✅ 使用不同視覺化  
+✅ 儲存儀表板  
 
-## Cheat Sheet
+## 速查表
 
-### Common Commands
+### 常用指令
 
 ```bash
-# Start services
+# 啟動服務
 docker-compose up -d
 
-# Stop services
+# 停止服務
 docker-compose down
 
-# View logs
+# 查看日誌
 docker-compose logs -f grafana
 
-# Restart Grafana
+# 重啟 Grafana
 docker-compose restart grafana
 
-# Check status
+# 檢查狀態
 docker-compose ps
 ```
 
-### Common URLs
+### 常用網址
 
-- Grafana: http://localhost:3000
-- Prometheus: http://localhost:9090
-- Node Exporter: http://localhost:9100/metrics
-- MySQL: localhost:3306
+- Grafana：http://localhost:3000
+- Prometheus：http://localhost:9090
+- Node Exporter：http://localhost:9100/metrics
+- MySQL：localhost:3306
 
-### Default Credentials
+### 預設帳密
 
-- Grafana: admin / admin
-- MySQL: grafana / grafana_pass
-- MySQL Root: root / rootpassword
+- Grafana：admin / admin
+- MySQL：grafana / grafana_pass
+- MySQL Root：root / rootpassword
 
-## Pro Tips
+## 小技巧
 
-💡 Use **Ctrl+S** to quick-save dashboards
+💡 使用 **Ctrl+S** 可快速儲存儀表板
 
-💡 Press **?** in Grafana to see keyboard shortcuts
+💡 按 **?** 查看快捷鍵
 
-💡 Use **Explore** view to test queries before adding to dashboard
+💡 先在 **Explore** 測試查詢再加入面板
 
-💡 Click panel title → **Edit** to quickly modify panels
+💡 點面板標題 → **Edit** 快速修改
 
-💡 Use **Time range picker** to view different time periods
+💡 使用 **Time range picker** 檢視不同時間
 
-💡 Enable **Auto-refresh** for real-time monitoring
+💡 啟用 **Auto-refresh** 讓資料即時更新
 
 ---
 
-**Congratulations! 🎉** 
+**恭喜完成！🎉**
 
-You've created your first Grafana dashboard!
+你已建立第一個 Grafana 儀表板！
 
-Continue learning:
-- [📖 Full Tutorial](TUTORIAL.md)
+繼續學習：
+- [📖 完整教學](TUTORIAL.md)
 - [📚 README](README.md)
-- [💻 Example Queries](examples/EXAMPLE_QUERIES.md)
+- [💻 查詢範例](examples/EXAMPLE_QUERIES.md)
 
-Need help? Check the troubleshooting section or open an issue on GitHub!
+需要協助？請查看疑難排解或在 GitHub 開 issue！
