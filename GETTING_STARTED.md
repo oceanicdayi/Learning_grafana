@@ -1,371 +1,363 @@
-# Learning Grafana - Complete Guide Index
+# Grafana 學習指南總覽
 
-Welcome to the comprehensive Grafana learning repository! This guide will help you navigate all the materials.
+歡迎來到 Grafana 完整學習資源庫！本頁會協助你快速了解文件結構、建議學習路徑與練習方式。
 
-## 📚 Documentation Structure
+## 📚 文件結構
 
-This repository contains everything you need to learn Grafana from scratch to advanced usage:
+此專案涵蓋從入門到進階的學習內容，建議依需求選擇：
 
-### 🚀 For Beginners: Start Here
+### 🚀 新手入門（從這裡開始）
 
-1. **[QUICKSTART.md](QUICKSTART.md)** ⭐ **START HERE!**
-   - Get up and running in 10 minutes
-   - Create your first dashboard
-   - Hands-on, step-by-step instructions
-   - Perfect for absolute beginners
+1. **[QUICKSTART.md](QUICKSTART.md)** ⭐ **建議第一份閱讀**
+   - 10 分鐘內完成環境啟動
+   - 建立第一個儀表板
+   - 手把手步驟教學
+   - 適合完全新手
 
-2. **[README.md](README.md)** 
-   - Complete overview of Grafana
-   - Features and capabilities
-   - Installation options
-   - Comprehensive introduction
+2. **[README.md](README.md)**
+   - Grafana 全面介紹
+   - 功能與能力概覽
+   - 安裝方式與基礎概念
+   - 學習方向整理
 
-### 📖 In-Depth Learning
+### 📖 深入學習
 
 3. **[TUTORIAL.md](TUTORIAL.md)**
-   - Detailed step-by-step tutorial
-   - Create complete dashboards
-   - Multiple data source examples
-   - Alerting and sharing
-   - Practice exercises
+   - 完整教學流程
+   - 建立多個儀表板案例
+   - 多資料來源實作
+   - 告警與分享設定
+   - 練習題與延伸方向
 
 4. **[examples/DATA_SOURCES.md](examples/DATA_SOURCES.md)**
-   - How to connect various data sources
-   - Configuration examples
-   - Prometheus, MySQL, PostgreSQL, InfluxDB
-   - Best practices
+   - 常見資料來源連線方式
+   - YAML 設定範例
+   - Prometheus、MySQL、PostgreSQL、InfluxDB
+   - 安全與最佳實務
 
 5. **[examples/EXAMPLE_QUERIES.md](examples/EXAMPLE_QUERIES.md)**
-   - Ready-to-use query examples
-   - MySQL, Prometheus, InfluxDB queries
-   - Common patterns and techniques
-   - Query optimization tips
+   - 即用型查詢範例
+   - MySQL、Prometheus、InfluxDB 查詢
+   - 常見查詢模式與技巧
+   - 效能優化建議
 
-### 🔍 Analysis and Best Practices
+### 🔍 分析與最佳實務
 
 6. **[DASHBOARD_ANALYSIS.md](DASHBOARD_ANALYSIS.md)**
-   - How to read and understand dashboards
-   - Analyzing metrics and patterns
-   - Identifying issues
-   - Case studies
-   - The USE and RED methods
+   - 儀表板解讀方法
+   - 指標分析與異常判讀
+   - 問題定位框架
+   - USE/RED 方法
 
 7. **[ANALYZING_PUBLIC_DASHBOARD.md](ANALYZING_PUBLIC_DASHBOARD.md)**
-   - Specific guide for analyzing the provided dashboard
-   - Framework for dashboard analysis
-   - What to look for
-   - How to document findings
+   - 針對公開儀表板的分析流程
+   - 實際操作框架
+   - 觀察重點與紀錄方式
 
-## 🎯 Learning Paths
+## 🎯 學習路徑
 
-### Path 1: Complete Beginner (2-3 hours)
-
-```
-1. Read QUICKSTART.md (10 min)
-   ↓
-2. Follow the quick start steps (20 min)
-   ↓
-3. Read relevant sections of README.md (30 min)
-   ↓
-4. Try TUTORIAL.md Section 1-3 (60 min)
-   ↓
-5. Import a community dashboard (10 min)
-   ↓
-6. Experiment and explore! (60 min)
-```
-
-### Path 2: Hands-On Learner (3-4 hours)
+### 路徑 1：完全新手（2-3 小時）
 
 ```
-1. QUICKSTART.md - Get environment running (15 min)
+1. 閱讀 QUICKSTART.md（10 分）
    ↓
-2. TUTORIAL.md - Follow entire tutorial (120 min)
+2. 跟著快速啟動（20 分）
    ↓
-3. EXAMPLE_QUERIES.md - Try different queries (45 min)
+3. 了解 README.md 基礎概念（30 分）
    ↓
-4. DATA_SOURCES.md - Connect new data source (30 min)
+4. 完成 TUTORIAL.md 第 1-3 章（60 分）
    ↓
-5. Create your own dashboard (60 min)
+5. 匯入社群儀表板（10 分）
+   ↓
+6. 自行探索與練習（60 分）
 ```
 
-### Path 3: Analysis Focused (1-2 hours)
+### 路徑 2：偏實作學習（3-4 小時）
 
 ```
-1. Read README.md overview (20 min)
+1. QUICKSTART.md - 完成環境啟動（15 分）
    ↓
-2. DASHBOARD_ANALYSIS.md - Learn analysis techniques (40 min)
+2. TUTORIAL.md - 完整教學（120 分）
    ↓
-3. ANALYZING_PUBLIC_DASHBOARD.md - Apply to real dashboard (30 min)
+3. EXAMPLE_QUERIES.md - 嘗試不同查詢（45 分）
    ↓
-4. Import dashboard 1860 and analyze it (30 min)
+4. DATA_SOURCES.md - 連接新資料來源（30 分）
+   ↓
+5. 自建儀表板（60 分）
 ```
 
-### Path 4: Quick Reference (Ongoing)
+### 路徑 3：分析導向（1-2 小時）
 
-Use as reference when you need:
-- Query examples → EXAMPLE_QUERIES.md
-- Data source setup → DATA_SOURCES.md
-- Best practices → DASHBOARD_ANALYSIS.md
-- Troubleshooting → TUTORIAL.md or QUICKSTART.md
+```
+1. 閱讀 README.md 概覽（20 分）
+   ↓
+2. DASHBOARD_ANALYSIS.md - 分析技巧（40 分）
+   ↓
+3. ANALYZING_PUBLIC_DASHBOARD.md - 實作分析（30 分）
+   ↓
+4. 匯入儀表板 1860 並分析（30 分）
+```
 
-## 🛠️ What's Included in This Repository
+### 路徑 4：快速查閱（長期使用）
 
-### Documentation
-- ✅ Complete Grafana introduction
-- ✅ Step-by-step tutorials
-- ✅ Analysis guides
-- ✅ Best practices
-- ✅ Query examples
-- ✅ Troubleshooting tips
+適合在工作中快速找到：
+- 查詢範例 → EXAMPLE_QUERIES.md
+- 資料來源設定 → DATA_SOURCES.md
+- 最佳實務 → DASHBOARD_ANALYSIS.md
+- 問題排除 → TUTORIAL.md / QUICKSTART.md
 
-### Configuration Files
-- ✅ Docker Compose setup
-- ✅ Prometheus configuration
-- ✅ MySQL sample database
-- ✅ Data source provisioning
-- ✅ Ready-to-use examples
+## 🛠️ 專案包含內容
 
-### Sample Data
-- ✅ Website analytics data
-- ✅ System metrics
-- ✅ Application logs
-- ✅ Pre-populated MySQL database
+### 文件
+- ✅ Grafana 完整介紹
+- ✅ 逐步教學
+- ✅ 儀表板分析指南
+- ✅ 最佳實務
+- ✅ 查詢範例
+- ✅ 疑難排解
 
-## 🎓 What You'll Learn
+### 設定檔
+- ✅ Docker Compose 環境
+- ✅ Prometheus 設定
+- ✅ MySQL 範例資料庫
+- ✅ 資料來源預配置
+- ✅ 即用範例
 
-By working through this repository, you'll learn:
+### 範例資料
+- ✅ 網站分析資料
+- ✅ 系統指標
+- ✅ 應用日誌
+- ✅ 預建 MySQL 資料表
 
-### Fundamentals
-- [x] What Grafana is and why it's used
-- [x] How to install and set up Grafana
-- [x] Understanding dashboards and panels
-- [x] Basic navigation and interface
+## 🎓 你會學到什麼
 
-### Data Sources
-- [x] Connecting to databases (MySQL, PostgreSQL)
-- [x] Using Prometheus for metrics
-- [x] Working with time-series data
-- [x] Testing and troubleshooting connections
+### 基礎知識
+- [x] Grafana 的用途與價值
+- [x] 安裝與環境設定
+- [x] 儀表板與面板概念
+- [x] 介面操作方式
 
-### Visualization
-- [x] Choosing the right visualization type
-- [x] Creating graphs and charts
-- [x] Using gauges and stats
-- [x] Building tables and heatmaps
-- [x] Customizing colors and themes
+### 資料來源
+- [x] 連接資料庫（MySQL、PostgreSQL）
+- [x] 使用 Prometheus 監控指標
+- [x] 時間序列資料概念
+- [x] 連線測試與疑難排解
 
-### Queries
-- [x] Writing SQL queries for Grafana
-- [x] Using PromQL for Prometheus
-- [x] Time filters and variables
-- [x] Aggregations and calculations
-- [x] Query optimization
+### 視覺化
+- [x] 選擇正確的視覺化方式
+- [x] 建立圖表與趨勢
+- [x] 使用 Gauge、Stat
+- [x] 建立表格與熱力圖
+- [x] 客製化顏色與主題
 
-### Dashboards
-- [x] Creating dashboards from scratch
-- [x] Organizing panels and rows
-- [x] Using variables for filtering
-- [x] Setting time ranges
-- [x] Sharing and exporting
+### 查詢能力
+- [x] 撰寫 SQL 查詢
+- [x] 使用 PromQL
+- [x] 時間範圍與變數
+- [x] 聚合與計算
+- [x] 查詢效能優化
 
-### Analysis
-- [x] Reading and understanding metrics
-- [x] Identifying patterns and trends
-- [x] Spotting anomalies and issues
-- [x] Using analysis frameworks (USE, RED, Golden Signals)
-- [x] Making data-driven decisions
+### 儀表板設計
+- [x] 從零建立儀表板
+- [x] 組織面板與行
+- [x] 使用變數篩選
+- [x] 設定時間範圍
+- [x] 分享與匯出
 
-### Advanced Topics
-- [x] Setting up alerts
-- [x] Creating public dashboards
-- [x] Importing community dashboards
-- [x] Best practices and optimization
-- [x] Production considerations
+### 分析能力
+- [x] 讀懂指標趨勢
+- [x] 找出異常與關聯
+- [x] 使用分析框架（USE、RED、黃金訊號）
+- [x] 形成資料驅動決策
 
-## 🏃 Quick Commands Reference
+### 進階主題
+- [x] 設定告警
+- [x] 建立公開儀表板
+- [x] 匯入社群儀表板
+- [x] 最佳實務與效能優化
+- [x] 上線前考量事項
 
-### Start the Environment
+## 🏃 常用指令速查
+
+### 啟動環境
 ```bash
 git clone https://github.com/oceanicdayi/Learning_grafana.git
 cd Learning_grafana
 docker-compose up -d
 ```
 
-### Access Services
-- **Grafana**: http://localhost:3000 (admin/admin)
-- **Prometheus**: http://localhost:9090
-- **MySQL**: localhost:3306 (grafana/grafana_pass)
+### 服務入口
+- **Grafana**：http://localhost:3000（admin/admin）
+- **Prometheus**：http://localhost:9090
+- **MySQL**：localhost:3306（grafana/grafana_pass）
 
-### Manage Services
+### 管理服務
 ```bash
-# Stop services
+# 停止服務
 docker-compose down
 
-# View logs
+# 檢視日誌
 docker-compose logs -f grafana
 
-# Restart service
+# 重啟服務
 docker-compose restart grafana
 
-# Check status
+# 檢查狀態
 docker-compose ps
 ```
 
-## 📊 Example Dashboards to Import
+## 📊 推薦匯入的儀表板
 
-Try these community dashboards (Import → Enter ID):
+可嘗試社群儀表板（匯入 → 輸入 ID）：
 
-| ID | Name | Description |
-|----|------|-------------|
-| 1860 | Node Exporter Full | Complete system monitoring |
-| 7362 | MySQL Overview | Database monitoring |
-| 193 | Docker Monitoring | Container metrics |
-| 7249 | Kubernetes Cluster | K8s monitoring |
+| ID | 名稱 | 說明 |
+|----|------|------|
+| 1860 | Node Exporter Full | 完整系統監控 |
+| 7362 | MySQL Overview | 資料庫監控 |
+| 193 | Docker Monitoring | 容器監控 |
+| 7249 | Kubernetes Cluster | K8s 監控 |
 
-## 🎯 Practical Exercises
+## 🎯 練習題
 
-### Exercise 1: Your First Dashboard (Beginner)
-**Time**: 30 minutes  
-**Goal**: Create a simple system monitoring dashboard  
-**Guide**: Follow QUICKSTART.md
+### 練習 1：第一個儀表板（初學）
+**時間**：30 分鐘  
+**目標**：建立簡易監控儀表板  
+**參考**：QUICKSTART.md
 
-### Exercise 2: Website Analytics (Intermediate)
-**Time**: 60 minutes  
-**Goal**: Create dashboard with MySQL data  
-**Guide**: TUTORIAL.md Section "Dashboard 2"
+### 練習 2：網站分析（中階）
+**時間**：60 分鐘  
+**目標**：使用 MySQL 建立網站指標  
+**參考**：TUTORIAL.md 的「Dashboard 2」
 
-### Exercise 3: Custom Queries (Intermediate)
-**Time**: 45 minutes  
-**Goal**: Write and optimize your own queries  
-**Guide**: EXAMPLE_QUERIES.md + experimentation
+### 練習 3：自訂查詢（中階）
+**時間**：45 分鐘  
+**目標**：撰寫與優化查詢  
+**參考**：EXAMPLE_QUERIES.md
 
-### Exercise 4: Dashboard Analysis (Advanced)
-**Time**: 60 minutes  
-**Goal**: Analyze a public dashboard completely  
-**Guide**: ANALYZING_PUBLIC_DASHBOARD.md
+### 練習 4：儀表板分析（進階）
+**時間**：60 分鐘  
+**目標**：分析公開儀表板  
+**參考**：ANALYZING_PUBLIC_DASHBOARD.md
 
-### Exercise 5: Production Dashboard (Advanced)
-**Time**: 2-3 hours  
-**Goal**: Create a production-ready dashboard  
-**Requirements**: 
-- Multiple data sources
-- Alerts configured
-- Variables for filtering
-- Documented and shared
+### 練習 5：上線用儀表板（進階）
+**時間**：2-3 小時  
+**目標**：建立可上線的完整儀表板  
+**需求**：
+- 多資料來源
+- 已設定告警
+- 具備變數篩選
+- 完整說明與分享
 
-## 🆘 Getting Help
+## 🆘 取得協助
 
-### Troubleshooting
-1. Check the troubleshooting section in QUICKSTART.md
-2. Review TUTORIAL.md for common issues
-3. Check Docker logs: `docker-compose logs`
-4. Verify services are running: `docker-compose ps`
+### 疑難排解
+1. 先查看 QUICKSTART.md 的排除章節
+2. 參考 TUTORIAL.md 的常見問題
+3. 查看 Docker 日誌：`docker-compose logs`
+4. 確認服務狀態：`docker-compose ps`
 
-### Common Issues
+### 常見問題
 
-**Can't access Grafana**
-- Wait 30 seconds for startup
-- Check http://127.0.0.1:3000
-- Verify Docker is running
+**無法進入 Grafana**
+- 等待 30 秒讓服務啟動
+- 使用 http://127.0.0.1:3000
+- 確認 Docker 正常執行
 
-**No data in panels**
-- Wait 1-2 minutes for data collection
-- Check time range (use "Last 5 minutes")
-- Verify data source connection
+**面板無資料**
+- 等待 1-2 分鐘讓 Prometheus 收集資料
+- 確認時間範圍（例如「最近 5 分鐘」）
+- 資料來源是否連線成功
 
-**Query errors**
-- Check syntax in EXAMPLE_QUERIES.md
-- Test query in Explore view first
-- Verify data exists in time range
+**查詢錯誤**
+- 參考 EXAMPLE_QUERIES.md
+- 先在 Explore 測試查詢
+- 確認時間範圍內有資料
 
-### Additional Resources
-- [Grafana Official Docs](https://grafana.com/docs/)
-- [Grafana Community](https://community.grafana.com/)
-- [Grafana Tutorials](https://grafana.com/tutorials/)
+### 延伸資源
+- [Grafana 官方文件](https://grafana.com/docs/)
+- [Grafana 社群](https://community.grafana.com/)
+- [Grafana 教學](https://grafana.com/tutorials/)
 - [Dashboard Gallery](https://grafana.com/grafana/dashboards/)
 
-## 📝 Recommended Reading Order
+## 📝 建議閱讀順序
 
-### For Learning (First Time)
-1. QUICKSTART.md - Get hands dirty first
-2. README.md - Understand the theory
-3. TUTORIAL.md - Deep dive with examples
-4. EXAMPLE_QUERIES.md - Learn query patterns
-5. DASHBOARD_ANALYSIS.md - Master analysis
+### 初次學習
+1. QUICKSTART.md - 快速上手
+2. README.md - 理論與全貌
+3. TUTORIAL.md - 實作練習
+4. EXAMPLE_QUERIES.md - 查詢技巧
+5. DASHBOARD_ANALYSIS.md - 分析能力
 
-### For Reference (Later)
-- DATA_SOURCES.md - When adding new data sources
-- EXAMPLE_QUERIES.md - When writing queries
-- ANALYZING_PUBLIC_DASHBOARD.md - When analyzing dashboards
+### 之後參考
+- DATA_SOURCES.md - 新增資料來源
+- EXAMPLE_QUERIES.md - 撰寫查詢
+- ANALYZING_PUBLIC_DASHBOARD.md - 儀表板分析
 
-## 🎉 Success Milestones
+## 🎉 成就清單
 
-Track your progress:
+### 初級
+- [ ] 成功安裝 Grafana
+- [ ] 建立第一個面板
+- [ ] 完成第一個儀表板
+- [ ] 了解常用視覺化類型
+- [ ] 連接資料來源
 
-### Beginner Level
-- [ ] Successfully installed Grafana
-- [ ] Created first panel with query
-- [ ] Created first complete dashboard
-- [ ] Understood different visualization types
-- [ ] Connected to a data source
+### 中級
+- [ ] 建立多資料來源儀表板
+- [ ] 使用變數篩選
+- [ ] 撰寫 SQL 與 PromQL 查詢
+- [ ] 匯入並調整社群儀表板
+- [ ] 分享儀表板
 
-### Intermediate Level
-- [ ] Created dashboard with multiple data sources
-- [ ] Used variables for filtering
-- [ ] Wrote custom SQL and PromQL queries
-- [ ] Imported and customized community dashboard
-- [ ] Shared a dashboard publicly
+### 進階
+- [ ] 設定告警通知
+- [ ] 建立上線級儀表板
+- [ ] 優化查詢效能
+- [ ] 分析複雜指標
+- [ ] 為利害關係人設計儀表板
 
-### Advanced Level
-- [ ] Set up alerts with notifications
-- [ ] Created production-ready dashboards
-- [ ] Optimized queries for performance
-- [ ] Analyzed complex metrics and patterns
-- [ ] Designed dashboard for stakeholders
+## 💡 小技巧
 
-## 💡 Pro Tips
+1. **從小開始**：先做 1-2 個面板，再逐步擴大
+2. **善用 TestData**：不用資料庫也能練習
+3. **先在 Explore 測試**：避免儀表板出錯
+4. **匯入範例學習**：觀察社群設計
+5. **記得加註說明**：清楚描述面板目的
+6. **版本控管**：匯出 JSON 進行版控
+7. **持續迭代**：儀表板會越做越好
+8. **多問多看**：參與社群討論
 
-1. **Start Small**: Begin with one panel, then expand
-2. **Use TestData**: Perfect for learning without setup
-3. **Explore First**: Use Explore view to test queries
-4. **Import Examples**: Learn from community dashboards
-5. **Document Everything**: Add descriptions to panels
-6. **Version Control**: Export dashboards as JSON
-7. **Iterate**: Dashboards improve over time
-8. **Ask Questions**: Use the community forum
+## 🔄 持續更新
 
-## 🔄 Keeping Up to Date
+此專案將持續新增：
+- 新的教學與案例
+- 更多資料來源設定
+- 查詢模式與技巧
+- 更新的最佳實務
 
-This repository will be updated with:
-- New examples and tutorials
-- Additional data source guides
-- More query patterns
-- Updated best practices
-- Community contributions
+歡迎 Star 追蹤最新內容！
 
-Star the repository to stay updated!
+## 🤝 投稿與建議
 
-## 🤝 Contributing
+若內容有需補充或不清楚之處，歡迎提出 Issue 或 PR。
 
-Found something unclear? Have a great example? Contributions welcome!
+## 📄 授權
 
-## 📄 License
-
-This learning material is provided for educational purposes.
+本學習內容僅供教育與自學用途。
 
 ---
 
-## 🚀 Ready to Start?
+## 🚀 準備開始？
 
-**Choose your path:**
+**請選擇你的路線：**
 
-1. **"I want to learn fast!"** → Go to [QUICKSTART.md](QUICKSTART.md)
-2. **"I want comprehensive knowledge"** → Go to [README.md](README.md)
-3. **"I want hands-on practice"** → Go to [TUTORIAL.md](TUTORIAL.md)
-4. **"I want to analyze dashboards"** → Go to [DASHBOARD_ANALYSIS.md](DASHBOARD_ANALYSIS.md)
+1. **「我想快速上手！」** → [QUICKSTART.md](QUICKSTART.md)
+2. **「我想全面了解」** → [README.md](README.md)
+3. **「我想實作練習」** → [TUTORIAL.md](TUTORIAL.md)
+4. **「我想分析儀表板」** → [DASHBOARD_ANALYSIS.md](DASHBOARD_ANALYSIS.md)
 
-**Whatever path you choose, you'll learn Grafana! 🎓**
+**不管選哪條路，都能學會 Grafana！🎓**
 
 ---
 
-*Happy Learning! If you have any questions, check the documentation or open an issue on GitHub.*
+*祝學習順利！如有問題，可查看文件或在 GitHub 開 issue。*

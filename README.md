@@ -1,49 +1,56 @@
-# Learning Grafana
+# Grafana 學習指南
 
-A comprehensive guide to learning Grafana for data visualization and monitoring.
+這是一份完整的 Grafana 學習指南，聚焦於資料視覺化與監控實務，從入門到進階都能循序學習並立即上手。
 
-## Table of Contents
+## 目錄
 
-1. [What is Grafana?](#what-is-grafana)
-2. [Getting Started](#getting-started)
-3. [Connecting Data Sources](#connecting-data-sources)
-4. [Visualization Techniques](#visualization-techniques)
-5. [Creating Dashboards](#creating-dashboards)
-6. [Analyzing Public Dashboards](#analyzing-public-dashboards)
-7. [Best Practices](#best-practices)
-8. [Examples](#examples)
+1. [什麼是 Grafana？](#什麼是-grafana)
+2. [入門與安裝](#入門與安裝)
+3. [連接資料來源](#連接資料來源)
+4. [視覺化技巧](#視覺化技巧)
+5. [建立儀表板](#建立儀表板)
+6. [解析公開儀表板](#解析公開儀表板)
+7. [最佳實務](#最佳實務)
+8. [範例](#範例)
+9. [延伸資源](#延伸資源)
 
-## What is Grafana?
+## 什麼是 Grafana？
 
-Grafana is an open-source analytics and interactive visualization web application. It provides:
-- **Data visualization**: Transform data into meaningful charts and graphs
-- **Multi-source support**: Connect to various data sources (Prometheus, InfluxDB, MySQL, PostgreSQL, etc.)
-- **Alerting**: Set up alerts based on metrics
-- **Dashboard sharing**: Create and share interactive dashboards
-- **Plugin ecosystem**: Extend functionality with community plugins
+Grafana 是開源的分析與互動式視覺化平台，常用於監控、告警與報表展示。它提供：
+- **資料視覺化**：把數據轉成易讀的圖表與指標
+- **多資料來源支援**：可連接 Prometheus、InfluxDB、MySQL、PostgreSQL 等
+- **告警與通知**：針對重要指標建立告警
+- **儀表板分享**：快速分享給團隊或利害關係人
+- **外掛生態系**：透過社群外掛擴充功能
 
-### Key Features
-- 📊 Rich visualization options (graphs, charts, heatmaps, etc.)
-- 🔌 Support for 50+ data sources
-- 🎨 Customizable and interactive dashboards
-- 🔔 Built-in alerting system
-- 👥 Team collaboration features
-- 🌐 Public dashboard sharing
+### 主要特色
+- 📊 多樣化視覺化（時間序列、圖表、熱力圖等）
+- 🔌 支援超過 50 種資料來源
+- 🎨 可客製化的互動式儀表板
+- 🔔 內建告警與通知流程
+- 👥 團隊協作與權限控管
+- 🌐 公開儀表板分享
 
-## Getting Started
+### 常見應用情境
+- **基礎設施監控**：伺服器、Kubernetes、網路流量
+- **應用程式效能**：API 延遲、錯誤率、交易成功率
+- **商業指標**：營收、轉換率、活躍使用者
+- **日誌分析**：搭配 Loki 或 Elasticsearch
 
-### Installation Options
+## 入門與安裝
 
-#### 1. Docker (Recommended for Learning)
+### 安裝方式
+
+#### 1. Docker（建議學習使用）
 ```bash
-# Run Grafana in Docker
+# 在 Docker 中執行 Grafana
 docker run -d -p 3000:3000 --name=grafana grafana/grafana
 
-# Access at http://localhost:3000
-# Default credentials: admin/admin
+# 以 http://localhost:3000 存取
+# 預設帳號密碼：admin/admin
 ```
 
-#### 2. Using Docker Compose
+#### 2. Docker Compose
 ```yaml
 version: '3.8'
 services:
@@ -60,8 +67,8 @@ volumes:
   grafana-storage:
 ```
 
-#### 3. Native Installation
-- **Ubuntu/Debian**: 
+#### 3. 原生安裝
+- **Ubuntu/Debian**：
   ```bash
   sudo apt-get install -y software-properties-common
   sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
@@ -69,55 +76,60 @@ volumes:
   sudo apt-get install grafana
   ```
 
-- **macOS**: 
+- **macOS**：
   ```bash
   brew install grafana
   ```
 
-- **Windows**: Download from [Grafana Downloads](https://grafana.com/grafana/download)
+- **Windows**：至 [Grafana 下載頁](https://grafana.com/grafana/download) 下載
 
-### First Login
-1. Navigate to `http://localhost:3000`
-2. Login with default credentials (admin/admin)
-3. Change password when prompted
-4. You'll see the Grafana home page
+### 第一次登入
+1. 開啟 `http://localhost:3000`
+2. 使用預設帳密（admin/admin）登入
+3. 依提示更改密碼
+4. 完成後即可看到 Grafana 首頁
 
-## Connecting Data Sources
+### 建議先完成的基本設定
+- 設定時區與語系
+- 啟用自動更新（Auto refresh）
+- 建立只讀帳號供展示或管理層查看
 
-Grafana supports numerous data sources. Here's how to connect the most popular ones:
+## 連接資料來源
 
-### Step-by-Step: Adding a Data Source
+Grafana 支援多種資料來源，下列為常用資料庫與指標系統的連線流程。
 
-1. **Navigate to Configuration**
-   - Click on the gear icon (⚙️) in the left sidebar
-   - Select "Data Sources"
-   - Click "Add data source"
+### 新增資料來源步驟
 
-2. **Choose Your Data Source**
-   - Select from the list (Prometheus, MySQL, PostgreSQL, InfluxDB, etc.)
+1. **進入設定**
+   - 左側點選齒輪（⚙️）
+   - 選擇「Data Sources」
+   - 點擊「Add data source」
 
-3. **Configure Connection**
-   - Enter required connection details
-   - Test the connection
-   - Save & test
+2. **選擇資料來源**
+   - 從清單中選擇 Prometheus、MySQL、PostgreSQL 等
 
-### Popular Data Sources
+3. **設定連線資訊**
+   - 填寫必要的連線參數
+   - 點擊測試連線
+   - 儲存並啟用
 
-#### 1. Prometheus (Metrics Database)
+### 常見資料來源
+
+#### 1. Prometheus（指標資料庫）
 ```yaml
-# Configuration Example
+# 設定範例
 Name: Prometheus
 Type: Prometheus
 URL: http://localhost:9090
 Access: Server (default)
 ```
 
-**Use Cases**: 
-- System metrics monitoring
-- Kubernetes monitoring
-- Application performance monitoring
+**適用情境**：
+- 系統指標監控
+- Kubernetes 監控
+- 應用效能監控
 
-#### 2. MySQL Database
+#### 2. MySQL 資料庫
 ```yaml
 Name: MySQL DB
 Type: MySQL
@@ -127,7 +139,7 @@ User: grafana_user
 Password: ********
 ```
 
-**Example Query**:
+**範例查詢**：
 ```sql
 SELECT
   timestamp AS time,
@@ -147,7 +159,7 @@ User: grafana
 SSL Mode: disable
 ```
 
-#### 4. InfluxDB (Time Series)
+#### 4. InfluxDB（時間序列資料庫）
 ```yaml
 Name: InfluxDB
 Type: InfluxDB
@@ -166,247 +178,258 @@ Index name: logs-*
 Time field: @timestamp
 ```
 
-#### 6. TestData DB (For Learning)
-Grafana includes a TestData data source perfect for learning!
-- No setup required
-- Pre-configured scenarios
-- Great for testing visualizations
+#### 6. TestData DB（學習用）
+Grafana 內建 TestData 資料來源，適合練習：
+- 無需額外安裝
+- 內建多種測試資料情境
+- 可快速驗證視覺化效果
 
-## Visualization Techniques
+## 視覺化技巧
 
-Grafana offers various visualization types. Choose based on your data type and story.
+Grafana 提供多種圖表，請依資料型態與情境選擇。
 
-### 1. Time Series Graph
-**Best for**: Tracking metrics over time
+### 1. 時間序列圖
+**適用**：追蹤指標隨時間變化
 ```
-- CPU usage over 24 hours
-- Network traffic patterns
-- Sales trends
-```
-
-**Configuration**:
-- X-axis: Time
-- Y-axis: Metric value
-- Multiple series support
-- Legend customization
-
-### 2. Stat Panel
-**Best for**: Single value display
-```
-- Current CPU usage: 45%
-- Total users: 1,234
-- System uptime: 99.9%
+- 24 小時 CPU 使用率
+- 網路流量變化
+- 銷售趨勢
 ```
 
-**Features**:
-- Color thresholds
-- Sparkline preview
-- Value mapping
-- Unit formatting
+**設定要點**：
+- X 軸：時間
+- Y 軸：指標值
+- 支援多序列
+- 可自訂圖例與顏色
+
+### 2. Stat 面板
+**適用**：展示單一關鍵數值
+```
+- 即時 CPU 使用率：45%
+- 總使用者數：1,234
+- 系統正常率：99.9%
+```
+
+**特色**：
+- 門檻顏色
+- 迷你趨勢圖
+- 值映射與單位格式
 
 ### 3. Gauge
-**Best for**: Percentage or bounded values
+**適用**：百分比或有上限的數值
 ```
-- Disk usage: 0-100%
-- Temperature: 0-100°C
-- Progress: 0-100%
+- 磁碟使用率：0-100%
+- 溫度：0-100°C
+- 進度：0-100%
 ```
 
 ### 4. Bar Chart
-**Best for**: Comparing categories
+**適用**：比較不同類別
 ```
-- Sales by region
-- Top 10 products
-- Error counts by service
+- 各地區銷售
+- 前 10 名商品
+- 服務錯誤次數
 ```
 
 ### 5. Table
-**Best for**: Detailed data inspection
+**適用**：細節資料檢視
 ```
-- Server inventory
-- User activity logs
-- Transaction details
+- 伺服器清單
+- 使用者活動紀錄
+- 交易明細
 ```
 
 ### 6. Heatmap
-**Best for**: Patterns and distributions
+**適用**：分佈與密度
 ```
-- Request latency distribution
-- User activity patterns
-- Error frequency by hour/day
+- 延遲分佈
+- 使用者活動熱點
+- 錯誤發生頻率
 ```
 
-### 7. Pie Chart / Donut Chart
-**Best for**: Part-to-whole relationships
+### 7. 圓餅圖 / 甜甜圈圖
+**適用**：整體比例關係
 ```
-- Market share
-- Resource allocation
-- Category distribution
+- 市場占比
+- 資源配置
+- 類別分布
 ```
 
 ### 8. Geomap
-**Best for**: Geographic data
+**適用**：地理位置資料
 ```
-- User locations
-- Server distribution
-- Regional metrics
+- 使用者位置
+- 伺服器分布
+- 區域指標
 ```
 
-## Creating Dashboards
+### 9. State Timeline（補充）
+**適用**：狀態變化與事件持續時間
+```
+- 服務狀態：Up/Down
+- 排程工作狀態
+```
 
-### Dashboard Creation Steps
+## 建立儀表板
 
-1. **Create New Dashboard**
+### 建立流程
+
+1. **建立新儀表板**
    ```
-   Click "+" → "Dashboard" → "Add new panel"
+   點擊 "+" → "Dashboard" → "Add new panel"
    ```
 
-2. **Configure Panel**
-   - Select data source
-   - Write query
-   - Choose visualization type
-   - Customize appearance
+2. **設定面板**
+   - 選擇資料來源
+   - 撰寫查詢
+   - 選擇視覺化類型
+   - 自訂外觀與閾值
 
-3. **Add Multiple Panels**
-   - Create comprehensive views
-   - Organize in rows
-   - Use consistent styling
+3. **加入多個面板**
+   - 建立完整的視覺化頁面
+   - 使用列（Row）分組
+   - 統一樣式與色彩
 
-4. **Dashboard Settings**
-   - Set time range
-   - Add variables (for filtering)
-   - Configure auto-refresh
-   - Set timezone
+4. **儀表板設定**
+   - 設定時間區間
+   - 加入變數（用於篩選）
+   - 設定自動更新
+   - 確認時區
 
-### Example Dashboard Structure
-
-```
-Dashboard: System Monitoring
-├── Row 1: Overview
-│   ├── CPU Usage (Gauge)
-│   ├── Memory Usage (Gauge)
-│   └── Disk Usage (Gauge)
-├── Row 2: Detailed Metrics
-│   ├── CPU Over Time (Graph)
-│   └── Memory Over Time (Graph)
-└── Row 3: Logs
-    └── Recent Errors (Table)
-```
-
-### Dashboard Variables
-
-Create dynamic dashboards with variables:
+### 範例儀表板結構
 
 ```
-Variable Name: server
-Type: Query
-Query: SELECT DISTINCT hostname FROM servers
+Dashboard: 系統監控
+├── Row 1: 概覽
+│   ├── CPU 使用率 (Gauge)
+│   ├── 記憶體使用率 (Gauge)
+│   └── 磁碟使用率 (Gauge)
+├── Row 2: 詳細指標
+│   ├── CPU 變化趨勢 (Graph)
+│   └── 記憶體變化趨勢 (Graph)
+└── Row 3: 日誌
+    └── 最近錯誤 (Table)
 ```
 
-Use in queries: `WHERE hostname = '$server'`
+### 儀表板變數
 
-## Analyzing Public Dashboards
-
-When analyzing a Grafana dashboard (like the one provided), look for:
-
-### 1. Dashboard Structure
-- **Title and Description**: What is being monitored?
-- **Time Range**: What period is displayed?
-- **Refresh Rate**: How often does data update?
-
-### 2. Panel Analysis
-For each panel, identify:
-- **Visualization Type**: Graph, stat, table, etc.
-- **Data Source**: Where is data coming from?
-- **Query**: What data is being fetched?
-- **Thresholds**: Are there warning/critical levels?
-
-### 3. Key Metrics to Observe
-- **Trends**: Is data increasing/decreasing?
-- **Anomalies**: Any unusual spikes or drops?
-- **Correlations**: Do metrics relate to each other?
-- **Performance**: Are systems within acceptable ranges?
-
-### 4. Interactive Features
-- **Time Range Selector**: Zoom to specific periods
-- **Variable Dropdowns**: Filter by server, region, etc.
-- **Legends**: Click to show/hide series
-- **Tooltips**: Hover for detailed information
-
-### Example Analysis Framework
+建立可動態篩選的儀表板：
 
 ```
-Dashboard: [Name]
-Purpose: [What it monitors]
-Time Range: [Period]
-Refresh: [Interval]
+變數名稱: server
+類型: Query
+查詢: SELECT DISTINCT hostname FROM servers
+```
+
+在查詢中使用：`WHERE hostname = '$server'`
+
+## 解析公開儀表板
+
+分析 Grafana 儀表板（例如公開儀表板）時，可注意：
+
+### 1. 儀表板結構
+- **標題與描述**：觀察監控的系統或服務
+- **時間範圍**：目前顯示期間
+- **更新頻率**：資料更新速度
+
+### 2. 面板分析
+對每個面板檢視：
+- **視覺化類型**：圖表、Stat、表格等
+- **資料來源**：資料從哪裡來
+- **查詢內容**：拉取哪些資料
+- **閾值設定**：是否有警戒範圍
+
+### 3. 觀察的關鍵指標
+- **趨勢**：上升、下降或穩定
+- **異常**：是否有尖峰或突降
+- **關聯性**：指標間是否互相影響
+- **效能狀態**：是否在可接受範圍
+
+### 4. 互動功能
+- **時間範圍選擇器**：縮放檢視
+- **變數下拉選單**：篩選伺服器或地區
+- **圖例**：快速顯示/隱藏曲線
+- **提示工具**：滑鼠懸停查看細節
+
+### 分析框架範例
+
+```
+Dashboard: [名稱]
+用途: [監控目標]
+時間範圍: [期間]
+更新頻率: [間隔]
 
 Panels:
-1. [Panel Name]
-   - Type: [Visualization]
-   - Metric: [What it shows]
-   - Insight: [What to learn from it]
-   
-2. [Panel Name]
-   - Type: [Visualization]
-   - Metric: [What it shows]
-   - Insight: [What to learn from it]
+1. [面板名稱]
+   - 類型: [視覺化]
+   - 指標: [顯示內容]
+   - 洞察: [可得結論]
+
+2. [面板名稱]
+   - 類型: [視覺化]
+   - 指標: [顯示內容]
+   - 洞察: [可得結論]
 ```
 
-## Best Practices
+## 最佳實務
 
-### 1. Dashboard Design
-✅ **Do**:
-- Keep dashboards focused on a single topic
-- Use consistent colors and styles
-- Add descriptive panel titles
-- Include units in labels
-- Use appropriate visualization types
+### 1. 儀表板設計
+✅ **建議**：
+- 儀表板聚焦於單一主題
+- 使用一致的色彩與樣式
+- 面板標題清楚易懂
+- 在標籤中標示單位
+- 選擇合適的視覺化類型
 
-❌ **Don't**:
-- Overcrowd dashboards with too many panels
-- Use complex color schemes
-- Mix unrelated metrics
-- Forget to document dashboard purpose
+❌ **避免**：
+- 面板過多造成資訊過載
+- 使用過度複雜的配色
+- 混合無關的指標
+- 忘記描述儀表板目的
 
-### 2. Query Optimization
-- Use time range filters: `$__timeFilter(time_column)`
-- Limit result sets
-- Use aggregation when possible
-- Cache frequently used queries
+### 2. 查詢最佳化
+- 使用時間範圍過濾：`$__timeFilter(time_column)`
+- 限制結果筆數
+- 盡量使用聚合
+- 設定快取或記錄規則
 
-### 3. Alert Configuration
-- Set meaningful thresholds
-- Avoid alert fatigue
-- Include context in notifications
-- Test alerts before deploying
+### 3. 告警設定
+- 設定有意義的閾值
+- 避免告警疲乏
+- 通知內容需包含背景資訊
+- 上線前先測試告警
 
-### 4. Security
-- Use read-only users for viewers
-- Implement authentication (OAuth, LDAP)
-- Regularly update Grafana
-- Secure data source credentials
+### 4. 資安與權限
+- 瀏覽者使用只讀帳號
+- 啟用驗證（OAuth、LDAP）
+- 定期更新 Grafana 版本
+- 妥善保管資料來源密碼
 
-## Examples
+### 5. 維護建議（補充）
+- 定期匯出儀表板 JSON 以備份
+- 以版本控管追蹤儀表板變更
+- 為重要面板加上描述與擁有者
 
-### Example 1: MySQL Website Analytics Dashboard
+## 範例
 
-**Data Source Configuration**:
+### 範例 1：MySQL 網站分析儀表板
+
+**資料來源設定**：
 ```yaml
 Type: MySQL
 Host: localhost:3306
 Database: analytics
 ```
 
-**Panel 1: Total Page Views Today**
+**面板 1：今日總瀏覽量**
 ```sql
 SELECT COUNT(*) as value
 FROM page_views
 WHERE DATE(timestamp) = CURDATE()
 ```
-Visualization: Stat Panel
+視覺化：Stat 面板
 
-**Panel 2: Page Views Over Time**
+**面板 2：瀏覽量趨勢**
 ```sql
 SELECT
   timestamp AS time,
@@ -416,9 +439,9 @@ WHERE $__timeFilter(timestamp)
 GROUP BY DATE(timestamp), HOUR(timestamp)
 ORDER BY time
 ```
-Visualization: Time Series
+視覺化：時間序列
 
-**Panel 3: Top 10 Pages**
+**面板 3：熱門頁面**
 ```sql
 SELECT
   page_url,
@@ -429,78 +452,79 @@ GROUP BY page_url
 ORDER BY views DESC
 LIMIT 10
 ```
-Visualization: Bar Chart
+視覺化：長條圖
 
-### Example 2: System Monitoring with Prometheus
+### 範例 2：Prometheus 系統監控
 
-**Panel 1: CPU Usage**
+**面板 1：CPU 使用率**
 ```promql
 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
 ```
-Visualization: Gauge
+視覺化：Gauge
 
-**Panel 2: Memory Usage**
+**面板 2：記憶體使用率**
 ```promql
 (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100
 ```
-Visualization: Time Series
+視覺化：時間序列
 
-**Panel 3: Disk I/O**
+**面板 3：磁碟 I/O**
 ```promql
 rate(node_disk_read_bytes_total[5m]) + rate(node_disk_written_bytes_total[5m])
 ```
-Visualization: Graph
+視覺化：折線圖
 
-### Example 3: Application Logs with Elasticsearch
+### 範例 3：Elasticsearch 應用程式日誌
 
-**Panel: Error Rate**
+**面板：錯誤率**
 ```
-Query: level:error
-Time field: @timestamp
-Metric: Count
+查詢: level:error
+時間欄位: @timestamp
+指標: Count
 ```
-Visualization: Time Series with Alert
+視覺化：時間序列 + 告警
 
-**Panel: Log Table**
+**面板：日誌列表**
 ```
-Query: *
-Fields: @timestamp, level, message, service
-Sort: @timestamp desc
+查詢: *
+欄位: @timestamp, level, message, service
+排序: @timestamp desc
 ```
-Visualization: Table
+視覺化：Table
 
-## Additional Resources
+## 延伸資源
 
-### Official Documentation
-- [Grafana Documentation](https://grafana.com/docs/)
-- [Grafana Tutorials](https://grafana.com/tutorials/)
-- [Data Source Configuration](https://grafana.com/docs/grafana/latest/datasources/)
+### 官方文件
+- [Grafana 官方文件](https://grafana.com/docs/)
+- [Grafana 教學](https://grafana.com/tutorials/)
+- [資料來源設定](https://grafana.com/docs/grafana/latest/datasources/)
 
-### Community Resources
+### 社群資源
 - [Grafana Community](https://community.grafana.com/)
 - [Grafana GitHub](https://github.com/grafana/grafana)
-- [Public Dashboard Gallery](https://grafana.com/grafana/dashboards/)
+- [公開儀表板集](https://grafana.com/grafana/dashboards/)
+- [Grafana Play（線上體驗）](https://play.grafana.org/)
 
-### Learning Path
-1. ✅ Install Grafana
-2. ✅ Add TestData source
-3. ✅ Create first panel
-4. ✅ Build complete dashboard
-5. ✅ Add real data source
-6. ✅ Configure alerts
-7. ✅ Share dashboard
-8. ✅ Explore plugins
+### 學習路徑
+1. ✅ 安裝 Grafana
+2. ✅ 加入 TestData 資料來源
+3. ✅ 建立第一個面板
+4. ✅ 完成儀表板
+5. ✅ 連接真實資料來源
+6. ✅ 設定告警
+7. ✅ 分享儀表板
+8. ✅ 探索外掛
 
-## Next Steps
+## 下一步
 
-1. **Practice with TestData**: Use Grafana's built-in test data to experiment
-2. **Import Dashboards**: Try pre-built dashboards from the community
-3. **Connect Real Data**: Add your own data sources
-4. **Build Custom Dashboards**: Create dashboards for your use cases
-5. **Explore Plugins**: Extend Grafana with community plugins
+1. **用 TestData 練習**：先從內建測試資料開始
+2. **匯入社群儀表板**：了解設計風格
+3. **連接真實資料**：建立自己業務的儀表板
+4. **持續優化**：調整查詢與視覺化
+5. **建立團隊流程**：定期檢視告警與指標
 
 ---
 
-**Happy Learning! 📊📈**
+**祝學習順利！📊📈**
 
-For questions or contributions, please open an issue or pull request.
+如有問題或想分享內容，歡迎提出 Issue 或 PR。

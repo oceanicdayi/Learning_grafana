@@ -1,29 +1,30 @@
-# Step-by-Step Tutorial: Creating Your First Grafana Dashboard
+# 逐步教學：建立你的第一個 Grafana 儀表板
 
-This tutorial will guide you through creating a complete dashboard with real data.
+本教學將帶你完成完整儀表板建置流程，從環境啟動到儀表板分享。
 
-## Prerequisites
+## 先決條件
 
-- Docker and Docker Compose installed
-- Basic understanding of SQL (for database examples)
+- 已安裝 Docker 與 Docker Compose
+- 具備基本 SQL 概念（資料庫範例會用到）
+- 可用的瀏覽器與網路環境
 
-## Part 1: Setup Environment
+## Part 1：環境設定
 
-### Step 1: Start the Stack
+### Step 1：啟動服務
 
 ```bash
-# Clone the repository
+# 取得專案
 git clone https://github.com/oceanicdayi/Learning_grafana.git
 cd Learning_grafana
 
-# Start all services
+# 啟動所有服務
 docker-compose up -d
 
-# Verify services are running
+# 確認服務狀態
 docker-compose ps
 ```
 
-Expected output:
+預期輸出：
 ```
 NAME            IMAGE                         STATUS
 grafana         grafana/grafana:latest        Up
@@ -32,127 +33,127 @@ prometheus      prom/prometheus:latest        Up
 node-exporter   prom/node-exporter:latest     Up
 ```
 
-### Step 2: Access Grafana
+### Step 2：進入 Grafana
 
-1. Open browser to `http://localhost:3000`
-2. Login with:
-   - Username: `admin`
-   - Password: `admin`
-3. Change password when prompted (or skip)
+1. 開啟瀏覽器：`http://localhost:3000`
+2. 登入資訊：
+   - 帳號：`admin`
+   - 密碼：`admin`
+3. 依提示更改密碼（可先略過）
 
-## Part 2: Explore Pre-configured Data Sources
+## Part 2：確認預設資料來源
 
-### Step 1: Check Data Sources
+### Step 1：檢查資料來源
 
-1. Click on ⚙️ (Configuration) → Data Sources
-2. You should see:
-   - ✅ Prometheus (default)
+1. 點擊 ⚙️（Configuration）→ Data Sources
+2. 應看到：
+   - ✅ Prometheus（預設）
    - ✅ MySQL Demo
 
-### Step 2: Test Connections
+### Step 2：測試連線
 
-1. Click on each data source
-2. Scroll to bottom
-3. Click "Save & test"
-4. Verify green success message
+1. 依序點擊資料來源
+2. 滾動到最底部
+3. 點擊「Save & test」
+4. 確認出現綠色成功訊息
 
-## Part 3: Create Your First Dashboard
+## Part 3：建立第一個儀表板
 
-### Dashboard 1: System Monitoring with Prometheus
+### 儀表板 1：Prometheus 系統監控
 
-#### Step 1: Create New Dashboard
+#### Step 1：建立新儀表板
 
-1. Click + → Dashboard
-2. Click "Add new panel"
+1. 點擊 + → Dashboard
+2. 點擊「Add new panel」
 
-#### Step 2: CPU Usage Panel
+#### Step 2：CPU 使用率面板
 
-**Configuration:**
-- **Data Source**: Prometheus
-- **Query**:
+**設定：**
+- **資料來源**：Prometheus
+- **查詢**：
   ```promql
   100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
   ```
-- **Panel Title**: CPU Usage
-- **Visualization**: Gauge
-- **Unit**: Percent (0-100)
-- **Thresholds**:
-  - Green: 0-70
-  - Yellow: 70-85
-  - Red: 85-100
+- **面板標題**：CPU 使用率
+- **視覺化**：Gauge
+- **單位**：Percent (0-100)
+- **閾值**：
+  - 綠色：0-70
+  - 黃色：70-85
+  - 紅色：85-100
 
-#### Step 3: Memory Usage Panel
+#### Step 3：記憶體使用率面板
 
-1. Click "Add panel" → "Add new panel"
+1. 點擊「Add panel」→「Add new panel」
 
-**Configuration:**
-- **Data Source**: Prometheus
-- **Query**:
+**設定：**
+- **資料來源**：Prometheus
+- **查詢**：
   ```promql
   (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100
   ```
-- **Panel Title**: Memory Usage
-- **Visualization**: Gauge
-- **Unit**: Percent (0-100)
-- **Thresholds**:
-  - Green: 0-70
-  - Yellow: 70-90
-  - Red: 90-100
+- **面板標題**：記憶體使用率
+- **視覺化**：Gauge
+- **單位**：Percent (0-100)
+- **閾值**：
+  - 綠色：0-70
+  - 黃色：70-90
+  - 紅色：90-100
 
-#### Step 4: Network Traffic Panel
+#### Step 4：網路流量面板
 
-1. Click "Add panel" → "Add new panel"
+1. 點擊「Add panel」→「Add new panel」
 
-**Configuration:**
-- **Data Source**: Prometheus
-- **Query A** (Incoming):
+**設定：**
+- **資料來源**：Prometheus
+- **Query A**（Inbound）：
   ```promql
   rate(node_network_receive_bytes_total[5m])
   ```
-- **Query B** (Outgoing):
+- **Query B**（Outbound）：
   ```promql
   rate(node_network_transmit_bytes_total[5m])
   ```
-- **Panel Title**: Network Traffic
-- **Visualization**: Time series
-- **Unit**: bytes/sec
+- **面板標題**：網路流量
+- **視覺化**：Time series
+- **單位**：bytes/sec
 
-#### Step 5: Save Dashboard
+#### Step 5：儲存儀表板
 
-1. Click 💾 (Save dashboard) at top
-2. Name: "System Monitoring"
-3. Click "Save"
+1. 點擊 💾（Save dashboard）
+2. 命名：「系統監控」
+3. 點擊「Save」
 
-### Dashboard 2: Website Analytics with MySQL
+### 儀表板 2：MySQL 網站分析
 
-#### Step 1: Create New Dashboard
+#### Step 1：建立新儀表板
 
-1. Click + → Dashboard
-2. Click "Add new panel"
+1. 點擊 + → Dashboard
+2. 點擊「Add new panel」
 
-#### Step 2: Total Page Views Today
+#### Step 2：今日瀏覽量
 
-**Configuration:**
-- **Data Source**: MySQL Demo
-- **Query**:
+**設定：**
+- **資料來源**：MySQL Demo
+- **查詢**：
   ```sql
   SELECT 
     COUNT(*) as 'Page Views'
   FROM page_views
   WHERE DATE(timestamp) = CURDATE()
   ```
-- **Panel Title**: Page Views Today
-- **Visualization**: Stat
-- **Color**: Blue
-- **Graph mode**: None
+- **面板標題**：今日瀏覽量
+- **視覺化**：Stat
+- **顏色**：藍色
+- **Graph mode**：None
 
-#### Step 3: Page Views Over Time
+#### Step 3：瀏覽量趨勢
 
-1. Add new panel
+1. 新增面板
 
-**Configuration:**
-- **Data Source**: MySQL Demo
-- **Query**:
+**設定：**
+- **資料來源**：MySQL Demo
+- **查詢**：
   ```sql
   SELECT
     timestamp as time,
@@ -162,17 +163,17 @@ node-exporter   prom/node-exporter:latest     Up
   GROUP BY DATE(timestamp), HOUR(timestamp)
   ORDER BY time
   ```
-- **Format**: Time series
-- **Panel Title**: Page Views Over Time
-- **Visualization**: Time series
+- **Format**：Time series
+- **面板標題**：瀏覽量趨勢
+- **視覺化**：Time series
 
-#### Step 4: Top Pages
+#### Step 4：熱門頁面
 
-1. Add new panel
+1. 新增面板
 
-**Configuration:**
-- **Data Source**: MySQL Demo
-- **Query**:
+**設定：**
+- **資料來源**：MySQL Demo
+- **查詢**：
   ```sql
   SELECT
     page_url as 'Page',
@@ -183,38 +184,38 @@ node-exporter   prom/node-exporter:latest     Up
   ORDER BY Views DESC
   LIMIT 10
   ```
-- **Format**: Table
-- **Panel Title**: Top 10 Pages
-- **Visualization**: Bar chart (horizontal)
+- **Format**：Table
+- **面板標題**：熱門 10 頁面
+- **視覺化**：水平長條圖
 
-#### Step 5: Average Response Time
+#### Step 5：平均回應時間
 
-1. Add new panel
+1. 新增面板
 
-**Configuration:**
-- **Data Source**: MySQL Demo
-- **Query**:
+**設定：**
+- **資料來源**：MySQL Demo
+- **查詢**：
   ```sql
   SELECT
     AVG(response_time) as 'Avg Response Time'
   FROM page_views
   WHERE $__timeFilter(timestamp)
   ```
-- **Panel Title**: Average Response Time
-- **Visualization**: Stat
-- **Unit**: milliseconds (ms)
-- **Thresholds**:
-  - Green: 0-100
-  - Yellow: 100-200
-  - Red: 200+
+- **面板標題**：平均回應時間
+- **視覺化**：Stat
+- **單位**：milliseconds (ms)
+- **閾值**：
+  - 綠色：0-100
+  - 黃色：100-200
+  - 紅色：200+
 
-#### Step 6: Error Logs Table
+#### Step 6：錯誤日誌表
 
-1. Add new panel
+1. 新增面板
 
-**Configuration:**
-- **Data Source**: MySQL Demo
-- **Query**:
+**設定：**
+- **資料來源**：MySQL Demo
+- **查詢**：
   ```sql
   SELECT
     timestamp as 'Time',
@@ -228,241 +229,247 @@ node-exporter   prom/node-exporter:latest     Up
   ORDER BY timestamp DESC
   LIMIT 50
   ```
-- **Format**: Table
-- **Panel Title**: Recent Errors and Warnings
-- **Visualization**: Table
+- **Format**：Table
+- **面板標題**：最近錯誤與警告
+- **視覺化**：Table
 
-#### Step 7: Organize Panels
+#### Step 7：整理面板布局
 
-1. Drag panels to arrange them
-2. Resize panels by dragging corners
-3. Suggested layout:
+1. 拖曳面板排列
+2. 拖曳角落調整尺寸
+3. 建議版面：
    ```
-   Row 1: [Page Views Today] [Avg Response Time]
-   Row 2: [Page Views Over Time - full width]
-   Row 3: [Top 10 Pages - full width]
-   Row 4: [Recent Errors and Warnings - full width]
+   Row 1: [今日瀏覽量] [平均回應時間]
+   Row 2: [瀏覽量趨勢 - 全寬]
+   Row 3: [熱門 10 頁面 - 全寬]
+   Row 4: [最近錯誤與警告 - 全寬]
    ```
 
-#### Step 8: Save Dashboard
+#### Step 8：儲存儀表板
 
-1. Click 💾 Save dashboard
-2. Name: "Website Analytics"
-3. Click "Save"
+1. 點擊 💾 Save dashboard
+2. 命名：「網站分析」
+3. 點擊「Save」
 
-## Part 4: Dashboard Customization
+## Part 4：自訂儀表板
 
-### Add Time Range Controls
+### 加入時間範圍控制
 
-1. Click ⚙️ (Dashboard settings)
-2. Go to "Time options"
-3. Configure:
-   - **Timezone**: Browser time
-   - **Auto refresh**: 30s, 1m, 5m, 15m, 30m, 1h
-   - **Default time range**: Last 24 hours
+1. 點擊 ⚙️（Dashboard settings）
+2. 進入「Time options」
+3. 設定：
+   - **Timezone**：Browser time
+   - **Auto refresh**：30s, 1m, 5m, 15m, 30m, 1h
+   - **Default time range**：Last 24 hours
 
-### Add Variables for Filtering
+### 新增變數（篩選）
 
-1. Click ⚙️ (Dashboard settings)
-2. Go to "Variables"
-3. Click "Add variable"
+1. 點擊 ⚙️（Dashboard settings）
+2. 進入「Variables」
+3. 點擊「Add variable」
 
-**Variable 1: Server Selection**
-- **Name**: server
-- **Type**: Query
-- **Data Source**: MySQL Demo
-- **Query**:
+**變數 1：伺服器選擇**
+- **Name**：server
+- **Type**：Query
+- **Data Source**：MySQL Demo
+- **Query**：
   ```sql
   SELECT DISTINCT hostname FROM system_metrics
   ```
-- **Multi-value**: Yes
-- **Include All option**: Yes
+- **Multi-value**：Yes
+- **Include All option**：Yes
 
-**Usage in queries**:
+**在查詢中使用**：
 ```sql
 WHERE hostname IN ($server)
 ```
 
-### Add Panel Links
+### 加入面板連結
 
-1. Edit a panel
-2. Go to "Panel options" section
-3. Add link:
-   - **Title**: View Logs
-   - **URL**: `/d/logs-dashboard`
+1. 編輯面板
+2. 進入「Panel options」區塊
+3. 新增連結：
+   - **Title**：查看日誌
+   - **URL**：`/d/logs-dashboard`
 
-## Part 5: Alerting (Optional)
+### 額外補充：命名與描述
 
-### Create Alert Rule
+- 給儀表板與面板清楚名稱
+- 在面板描述補上資料來源與用途
+- 可在「Notes」欄位寫上維護者與更新日期
 
-1. Edit a panel (e.g., CPU Usage)
-2. Go to "Alert" tab
-3. Click "Create alert rule from this panel"
+## Part 5：告警（可選）
 
-**Alert Configuration:**
-- **Name**: High CPU Usage
-- **Condition**: WHEN avg() OF query(A) IS ABOVE 85
-- **For**: 5m
-- **Annotations**:
-  - Summary: CPU usage is above 85%
-  - Description: Check system load and processes
+### 建立告警規則
 
-### Configure Contact Points
+1. 編輯面板（如 CPU 使用率）
+2. 進入「Alert」分頁
+3. 點擊「Create alert rule from this panel」
 
-1. Go to Alerting → Contact points
-2. Add contact point:
-   - **Name**: Email
-   - **Type**: Email
-   - **Addresses**: your-email@example.com
+**告警設定：**
+- **Name**：High CPU Usage
+- **Condition**：WHEN avg() OF query(A) IS ABOVE 85
+- **For**：5m
+- **Annotations**：
+  - Summary：CPU 使用率超過 85%
+  - Description：請檢查系統負載與程序
 
-## Part 6: Sharing Dashboard
+### 設定通知管道
 
-### Option 1: Public Dashboard
+1. 進入 Alerting → Contact points
+2. 新增聯絡方式：
+   - **Name**：Email
+   - **Type**：Email
+   - **Addresses**：your-email@example.com
 
-1. Open dashboard
-2. Click 🔗 (Share) → Public dashboard
-3. Enable public dashboard
-4. Copy public URL
-5. Share with anyone (no login required)
+## Part 6：分享儀表板
 
-### Option 2: Snapshot
+### 方式 1：公開儀表板
 
-1. Open dashboard
-2. Click 🔗 (Share) → Snapshot
-3. Set expiration time
-4. Publish to snapshots.raintank.io
-5. Share the snapshot URL
+1. 開啟儀表板
+2. 點擊 🔗（Share）→ Public dashboard
+3. 啟用公開儀表板
+4. 複製公開 URL
+5. 分享給任何人（不需登入）
 
-### Option 3: Export JSON
+### 方式 2：Snapshot
 
-1. Click ⚙️ (Dashboard settings)
-2. Go to "JSON Model"
-3. Copy JSON
-4. Share file or import in another Grafana instance
+1. 開啟儀表板
+2. 點擊 🔗（Share）→ Snapshot
+3. 設定到期時間
+4. 發佈至 snapshots.raintank.io
+5. 分享 Snapshot URL
 
-## Part 7: Import Community Dashboards
+### 方式 3：匯出 JSON
 
-Grafana has a huge collection of pre-built dashboards!
+1. 點擊 ⚙️（Dashboard settings）
+2. 進入「JSON Model」
+3. 複製 JSON
+4. 分享或匯入到其他 Grafana
 
-### Import Node Exporter Dashboard
+## Part 7：匯入社群儀表板
 
-1. Go to + → Import
-2. Enter Dashboard ID: `1860`
-3. Click "Load"
-4. Select Prometheus data source
-5. Click "Import"
+Grafana 社群提供大量現成儀表板：
 
-**Popular Dashboard IDs:**
-- Node Exporter Full: 1860
-- MySQL Overview: 7362
-- Docker Monitoring: 193
-- Kubernetes Cluster: 7249
+### 匯入 Node Exporter 儀表板
 
-## Part 8: Advanced Techniques
+1. 點擊 + → Import
+2. 輸入儀表板 ID：`1860`
+3. 點擊「Load」
+4. 選擇 Prometheus 資料來源
+5. 點擊「Import」
 
-### Template Variables
+**熱門儀表板 ID：**
+- Node Exporter Full：1860
+- MySQL Overview：7362
+- Docker Monitoring：193
+- Kubernetes Cluster：7249
 
-Use variables to create dynamic dashboards:
+## Part 8：進階技巧
+
+### 範本變數
+
+用變數建立可動態切換的儀表板：
 
 ```sql
--- In panel query
+-- 在面板查詢內
 SELECT * FROM metrics WHERE hostname = '$hostname'
 
--- Multiple selection
+-- 多選
 WHERE hostname IN ($hostname)
 
--- Time range
+-- 時間範圍
 WHERE timestamp >= $__timeFrom AND timestamp <= $__timeTo
 ```
 
-### Transformations
+### 轉換（Transformations）
 
-Transform query results:
+處理查詢結果：
 
-1. **Join by field**: Combine multiple queries
-2. **Filter by value**: Show only relevant data
-3. **Calculate field**: Add computed columns
-4. **Organize fields**: Reorder/hide columns
+1. **Join by field**：合併多個查詢
+2. **Filter by value**：篩選重要資料
+3. **Calculate field**：新增計算欄位
+4. **Organize fields**：欄位排序/隱藏
 
-### Query Caching
+### 查詢快取
 
-1. Edit data source
-2. Enable "Query caching"
-3. Set cache timeout
-4. Improves performance for frequently-used queries
+1. 編輯資料來源
+2. 啟用「Query caching」
+3. 設定快取時間
+4. 適合經常使用的查詢
 
-## Troubleshooting
+## 疑難排解
 
-### Data Not Showing
+### 資料沒有顯示
 
-✅ Check:
-- Data source connection (Save & test)
-- Query syntax
-- Time range
-- Data exists in that time range
+✅ 檢查：
+- 資料來源是否連線成功（Save & test）
+- 查詢語法是否正確
+- 時間範圍是否合適
+- 該時間範圍內是否有資料
 
-### Slow Queries
+### 查詢太慢
 
-✅ Solutions:
-- Use time filters: `$__timeFilter(timestamp)`
-- Add database indexes
-- Limit result sets
-- Use aggregation
-- Enable query caching
+✅ 解法：
+- 使用時間範圍過濾：`$__timeFilter(timestamp)`
+- 建立資料庫索引
+- 限制結果筆數
+- 使用聚合
+- 啟用查詢快取
 
-### Connection Errors
+### 連線錯誤
 
-✅ Check:
-- Service is running: `docker-compose ps`
-- Firewall rules
-- Network connectivity
-- Credentials
+✅ 檢查：
+- 服務是否啟動：`docker-compose ps`
+- 防火牆規則
+- 網路連線
+- 帳密是否正確
 
-## Next Steps
+## 下一步
 
-1. ✅ Experiment with different visualizations
-2. ✅ Create alerts for critical metrics
-3. ✅ Import community dashboards
-4. ✅ Connect your own data sources
-5. ✅ Explore Grafana plugins
-6. ✅ Set up authentication (LDAP, OAuth)
-7. ✅ Create organization and teams
-8. ✅ Set up dashboard permissions
+1. ✅ 嘗試更多視覺化類型
+2. ✅ 為重要指標建立告警
+3. ✅ 匯入社群儀表板
+4. ✅ 連接自有資料來源
+5. ✅ 探索 Grafana 外掛
+6. ✅ 設定驗證（LDAP、OAuth）
+7. ✅ 建立組織與團隊
+8. ✅ 設定權限與分享策略
 
-## Practice Exercises
+## 練習題
 
-### Exercise 1: Create a Sales Dashboard
-- Connect to a database with sales data
-- Show: Total sales, Sales by region, Top products
-- Use: Stat, Bar chart, Pie chart
+### 練習 1：銷售儀表板
+- 連接含銷售資料的資料庫
+- 顯示：總銷售額、區域銷售、熱門產品
+- 使用：Stat、Bar chart、Pie chart
 
-### Exercise 2: Create a Server Monitoring Dashboard
-- Use Prometheus + Node Exporter
-- Show: CPU, Memory, Disk, Network
-- Add alerts for critical thresholds
+### 練習 2：伺服器監控儀表板
+- 使用 Prometheus + Node Exporter
+- 顯示：CPU、記憶體、磁碟、網路
+- 設定關鍵閾值告警
 
-### Exercise 3: Create a Log Analysis Dashboard
-- Connect to Elasticsearch or MySQL logs
-- Show: Error rate, Log level distribution, Recent errors
-- Filter by service and severity
+### 練習 3：日誌分析儀表板
+- 連接 Elasticsearch 或 MySQL 日誌
+- 顯示：錯誤率、等級分布、最新錯誤
+- 使用服務/嚴重度篩選
 
-## Resources
+## 資源
 
-- **Documentation**: https://grafana.com/docs/
-- **Community Dashboards**: https://grafana.com/grafana/dashboards/
-- **Tutorials**: https://grafana.com/tutorials/
-- **Community Forum**: https://community.grafana.com/
+- **文件**：https://grafana.com/docs/
+- **社群儀表板**：https://grafana.com/grafana/dashboards/
+- **教學**：https://grafana.com/tutorials/
+- **社群論壇**：https://community.grafana.com/
 
 ---
 
-**Congratulations! 🎉** You've completed the Grafana tutorial!
+**恭喜完成！🎉** 你已完成 Grafana 全流程教學！
 
-You now know how to:
-- Set up Grafana with Docker
-- Connect data sources
-- Create dashboards
-- Use different visualizations
-- Set up alerts
-- Share dashboards
+你現在可以：
+- 使用 Docker 部署 Grafana
+- 連接資料來源
+- 建立儀表板
+- 使用多種視覺化
+- 設定告警
+- 分享儀表板
 
-Keep practicing and exploring!
+繼續練習、持續探索！

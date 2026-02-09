@@ -1,16 +1,16 @@
-# Grafana Data Source Configuration Examples
+# Grafana 資料來源設定範例
 
-This directory contains example configurations for various data sources that can be used with Grafana.
+此資料夾提供常見資料來源的設定範例，方便快速套用到 Grafana。
 
-## Automatic Provisioning
+## 自動佈建（Provisioning）
 
-Grafana supports automatic provisioning of data sources through YAML configuration files. Place these files in the `provisioning/datasources/` directory.
+Grafana 支援透過 YAML 檔案自動設定資料來源，請將設定檔放在 `provisioning/datasources/` 目錄中。
 
-## Example Configurations
+## 設定範例
 
-### 1. Prometheus Data Source
+### 1. Prometheus 資料來源
 
-**File**: `prometheus-datasource.yml`
+**檔案**：`prometheus-datasource.yml`
 
 ```yaml
 apiVersion: 1
@@ -27,9 +27,9 @@ datasources:
       timeInterval: 30s
 ```
 
-### 2. MySQL Data Source
+### 2. MySQL 資料來源
 
-**File**: `mysql-datasource.yml`
+**檔案**：`mysql-datasource.yml`
 
 ```yaml
 apiVersion: 1
@@ -49,9 +49,9 @@ datasources:
       connMaxLifetime: 14400
 ```
 
-### 3. PostgreSQL Data Source
+### 3. PostgreSQL 資料來源
 
-**File**: `postgres-datasource.yml`
+**檔案**：`postgres-datasource.yml`
 
 ```yaml
 apiVersion: 1
@@ -71,9 +71,9 @@ datasources:
       timescaledb: false
 ```
 
-### 4. InfluxDB Data Source
+### 4. InfluxDB 資料來源
 
-**File**: `influxdb-datasource.yml`
+**檔案**：`influxdb-datasource.yml`
 
 ```yaml
 apiVersion: 1
@@ -92,9 +92,9 @@ datasources:
       timeInterval: 10s
 ```
 
-### 5. TestData Data Source (Built-in)
+### 5. TestData 資料來源（內建）
 
-**File**: `testdata-datasource.yml`
+**檔案**：`testdata-datasource.yml`
 
 ```yaml
 apiVersion: 1
@@ -107,64 +107,83 @@ datasources:
     editable: true
 ```
 
-## Manual Configuration
+### 6. Loki（補充）
 
-You can also add data sources manually through the Grafana UI:
+若需要日誌分析，可加入 Loki：
 
-1. Go to Configuration → Data Sources
-2. Click "Add data source"
-3. Select the data source type
-4. Fill in the connection details
-5. Click "Save & test"
+```yaml
+apiVersion: 1
 
-## Connection Details by Data Source
+datasources:
+  - name: Loki
+    type: loki
+    access: proxy
+    url: http://loki:3100
+    editable: true
+```
+
+## 手動設定
+
+也可以直接在 Grafana UI 內新增：
+
+1. 進入 Configuration → Data Sources
+2. 點擊「Add data source」
+3. 選擇資料來源類型
+4. 填寫連線資訊
+5. 點擊「Save & test」
+
+## 各資料來源連線資訊
 
 ### Prometheus
-- **URL**: `http://localhost:9090` (local) or `http://prometheus:9090` (Docker)
-- **Access**: Server (proxy)
-- **HTTP Method**: POST
+- **URL**：`http://localhost:9090`（本機）或 `http://prometheus:9090`（Docker）
+- **Access**：Server（proxy）
+- **HTTP Method**：POST
 
 ### MySQL
-- **Host**: `localhost:3306` or `mysql:3306`
-- **Database**: Your database name
-- **User**: Database user
-- **Password**: Database password
-- **SSL Mode**: Disabled (for local development)
+- **Host**：`localhost:3306` 或 `mysql:3306`
+- **Database**：資料庫名稱
+- **User**：資料庫帳號
+- **Password**：資料庫密碼
+- **SSL Mode**：Disabled（本機開發）
 
 ### PostgreSQL
-- **Host**: `localhost:5432` or `postgres:5432`
-- **Database**: Your database name
-- **User**: Database user
-- **Password**: Database password
-- **SSL Mode**: disable (for local development)
+- **Host**：`localhost:5432` 或 `postgres:5432`
+- **Database**：資料庫名稱
+- **User**：資料庫帳號
+- **Password**：資料庫密碼
+- **SSL Mode**：disable（本機開發）
 
 ### InfluxDB
-- **URL**: `http://localhost:8086` or `http://influxdb:8086`
-- **Database**: Database name (e.g., telegraf)
-- **User**: Username
-- **Password**: Password
-- **HTTP Method**: GET or POST
+- **URL**：`http://localhost:8086` 或 `http://influxdb:8086`
+- **Database**：資料庫名稱（如 telegraf）
+- **User**：帳號
+- **Password**：密碼
+- **HTTP Method**：GET 或 POST
 
 ### Elasticsearch
-- **URL**: `http://localhost:9200` or `http://elasticsearch:9200`
-- **Index name**: Pattern (e.g., `logs-*`)
-- **Time field**: `@timestamp`
-- **Version**: Select your Elasticsearch version
+- **URL**：`http://localhost:9200` 或 `http://elasticsearch:9200`
+- **Index name**：Pattern（如 `logs-*`）
+- **Time field**：`@timestamp`
+- **Version**：選擇對應版本
 
-## Testing Data Sources
+### Loki
+- **URL**：`http://localhost:3100` 或 `http://loki:3100`
+- **Log label**：常見 `job`、`instance`
 
-After adding a data source, always:
-1. Click "Save & test"
-2. Verify the green "Data source is working" message
-3. If there's an error, check:
-   - Network connectivity
-   - Credentials
-   - Firewall rules
-   - Service status
+## 測試資料來源
 
-## Environment Variables
+新增資料來源後，建議：
+1. 點擊「Save & test」
+2. 確認綠色「Data source is working」
+3. 若失敗請檢查：
+   - 網路連線
+   - 帳密
+   - 防火牆設定
+   - 服務狀態
 
-For security, use environment variables for sensitive data:
+## 環境變數
+
+敏感資訊建議使用環境變數：
 
 ```yaml
 datasources:
@@ -177,22 +196,23 @@ datasources:
       password: ${MYSQL_PASSWORD}
 ```
 
-## Tips
+## 實務建議
 
-- **Use descriptive names**: Make it clear what each data source contains
-- **Set one as default**: Your most-used data source should be default
-- **Test connections**: Always test after configuration changes
-- **Document credentials**: Keep secure records of credentials
-- **Use read-only users**: For security, use users with minimal permissions
-- **Enable query caching**: Improve performance for frequently-used queries
+- **使用描述性名稱**：清楚標示用途
+- **設定預設來源**：常用資料來源可設為預設
+- **定期測試連線**：防止連線失效
+- **使用唯讀帳號**：降低風險
+- **避免硬編碼密碼**：使用環境變數
+- **啟用快取**：改善常用查詢效能
+- **記錄連線資訊**：方便維護交接
 
-## Next Steps
+## 下一步
 
-1. Choose a data source based on your needs
-2. Configure the connection details
-3. Test the connection
-4. Create your first query
-5. Build visualizations
-6. Create a dashboard
+1. 選擇適合的資料來源
+2. 完成連線設定
+3. 測試連線
+4. 撰寫第一個查詢
+5. 建立視覺化
+6. 建立儀表板
 
-For more information, see the [main README](../README.md).
+更多資訊請參考 [主 README](../README.md)。

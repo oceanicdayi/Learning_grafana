@@ -1,12 +1,12 @@
-# Example Grafana Queries
+# Grafana 查詢範例
 
-A collection of commonly used queries for different data sources.
+整理常見資料來源的查詢範例，方便直接套用或改寫。
 
-## MySQL / PostgreSQL Queries
+## MySQL / PostgreSQL 查詢
 
-### Time Series Data
+### 時間序列資料
 
-#### Basic Time Series
+#### 基本時間序列
 ```sql
 SELECT
   timestamp AS time,
@@ -16,7 +16,7 @@ WHERE $__timeFilter(timestamp)
 ORDER BY time
 ```
 
-#### Aggregated Time Series
+#### 聚合時間序列
 ```sql
 SELECT
   $__timeGroup(timestamp, '5m') AS time,
@@ -29,7 +29,7 @@ GROUP BY time
 ORDER BY time
 ```
 
-#### Multiple Series
+#### 多序列
 ```sql
 SELECT
   timestamp AS time,
@@ -40,9 +40,9 @@ WHERE $__timeFilter(timestamp)
 ORDER BY time
 ```
 
-### Statistics
+### 統計類
 
-#### Current Value
+#### 目前數值
 ```sql
 SELECT
   COUNT(*) as 'Total Users'
@@ -50,7 +50,7 @@ FROM users
 WHERE created_at >= NOW() - INTERVAL 24 HOUR
 ```
 
-#### Percentage Calculation
+#### 百分比計算
 ```sql
 SELECT
   ROUND(
@@ -61,7 +61,7 @@ FROM requests
 WHERE $__timeFilter(timestamp)
 ```
 
-#### Top N Query
+#### Top N
 ```sql
 SELECT
   page_url as 'Page',
@@ -73,9 +73,9 @@ ORDER BY Views DESC
 LIMIT 10
 ```
 
-### Complex Queries
+### 複雜查詢
 
-#### Rate of Change
+#### 變化率
 ```sql
 SELECT
   $__timeGroup(timestamp, '1m') as time,
@@ -86,7 +86,7 @@ GROUP BY time
 ORDER BY time
 ```
 
-#### Moving Average
+#### 移動平均
 ```sql
 SELECT
   timestamp as time,
@@ -100,7 +100,7 @@ WHERE $__timeFilter(timestamp)
 ORDER BY time
 ```
 
-#### Join Multiple Tables
+#### 多表 Join
 ```sql
 SELECT
   r.timestamp as time,
@@ -116,78 +116,89 @@ ORDER BY time DESC
 LIMIT 100
 ```
 
-## Prometheus Queries (PromQL)
+#### 錯誤率趨勢（補充）
+```sql
+SELECT
+  $__timeGroup(timestamp, '10m') as time,
+  ROUND(SUM(CASE WHEN level = 'ERROR' THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) as error_rate
+FROM application_logs
+WHERE $__timeFilter(timestamp)
+GROUP BY time
+ORDER BY time
+```
 
-### Basic Metrics
+## Prometheus 查詢（PromQL）
 
-#### Instant Query
+### 基本指標
+
+#### 即時查詢
 ```promql
-# Current CPU usage
+# 目前 CPU 使用率
 100 - (avg(irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
 ```
 
-#### Memory Usage
+#### 記憶體使用率
 ```promql
-# Memory usage percentage
+# 記憶體使用百分比
 (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100
 ```
 
-#### Disk Usage
+#### 磁碟使用率
 ```promql
-# Disk usage percentage
+# 磁碟使用百分比
 (node_filesystem_size_bytes - node_filesystem_avail_bytes) / node_filesystem_size_bytes * 100
 ```
 
-### Rate and Increase
+### Rate 與 Increase
 
-#### HTTP Request Rate
+#### HTTP 請求速率
 ```promql
-# Requests per second
+# 每秒請求數
 rate(http_requests_total[5m])
 ```
 
-#### HTTP Request Rate by Status
+#### HTTP 請求速率（依狀態碼）
 ```promql
-# Requests per second by status code
+# 依狀態碼計算請求速率
 sum by (status_code) (rate(http_requests_total[5m]))
 ```
 
-#### Bytes Transmitted
+#### 網路傳輸量
 ```promql
-# Network bytes per second
+# 每秒傳輸位元組
 rate(node_network_transmit_bytes_total[5m])
 ```
 
-### Aggregation
+### 聚合
 
-#### Average by Label
+#### 依標籤平均
 ```promql
-# Average response time by endpoint
+# 依 endpoint 平均回應時間
 avg by (endpoint) (http_request_duration_seconds)
 ```
 
-#### Sum by Instance
+#### 依 instance 加總
 ```promql
-# Total requests by instance
+# 依 instance 計算總請求
 sum by (instance) (rate(http_requests_total[5m]))
 ```
 
-#### Max by Service
+#### 依服務取最大值
 ```promql
-# Maximum latency by service
+# 依 service 取最大延遲
 max by (service) (http_request_duration_seconds)
 ```
 
-### Percentiles
+### 百分位
 
-#### 95th Percentile Latency
+#### 95 百分位延遲
 ```promql
 histogram_quantile(0.95, 
   rate(http_request_duration_seconds_bucket[5m])
 )
 ```
 
-#### Multiple Percentiles
+#### 多百分位
 ```promql
 # P50, P90, P95, P99
 histogram_quantile(0.50, rate(http_request_duration_seconds_bucket[5m])) or
@@ -196,55 +207,55 @@ histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) or
 histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m]))
 ```
 
-### Calculations
+### 計算
 
-#### Error Rate
+#### 錯誤率
 ```promql
-# Percentage of failed requests
+# 失敗請求百分比
 sum(rate(http_requests_total{status=~"5.."}[5m])) / 
 sum(rate(http_requests_total[5m])) * 100
 ```
 
-#### Available Memory
+#### 可用記憶體
 ```promql
-# Free memory in GB
+# 可用記憶體（GB）
 node_memory_MemAvailable_bytes / 1024 / 1024 / 1024
 ```
 
-#### Disk Growth Rate
+#### 磁碟成長速率
 ```promql
-# Disk growth in GB per hour
+# 每小時磁碟容量變化（GB）
 rate(node_filesystem_avail_bytes[1h]) * 3600 / 1024 / 1024 / 1024
 ```
 
-### Advanced Queries
+### 進階查詢
 
-#### Prediction
+#### 預測
 ```promql
-# Predict when disk will be full (in seconds)
+# 預測磁碟剩餘時間（秒）
 predict_linear(
   node_filesystem_avail_bytes{mountpoint="/"}[1h], 
   4 * 3600
 )
 ```
 
-#### Delta (Absolute Change)
+#### Delta（絕對變化）
 ```promql
-# Absolute change in last hour
+# 最近一小時絕對變化
 delta(node_network_transmit_bytes_total[1h])
 ```
 
-#### Counter Resets
+#### Counter 重置
 ```promql
-# Detect counter resets
+# 偵測 counter 重置
 resets(node_network_transmit_bytes_total[1h])
 ```
 
-## InfluxDB Queries (InfluxQL)
+## InfluxDB 查詢（InfluxQL）
 
-### Basic Queries
+### 基本查詢
 
-#### Select Recent Data
+#### 取得近期資料
 ```influxql
 SELECT 
   mean("value") 
@@ -254,7 +265,7 @@ WHERE
 GROUP BY time($__interval), "host"
 ```
 
-#### Multiple Fields
+#### 多欄位
 ```influxql
 SELECT 
   mean("cpu_usage") as "CPU",
@@ -264,9 +275,9 @@ WHERE $timeFilter
 GROUP BY time($__interval)
 ```
 
-### Aggregations
+### 聚合
 
-#### Average Over Time
+#### 平均值
 ```influxql
 SELECT 
   mean("response_time") 
@@ -275,7 +286,7 @@ WHERE $timeFilter
 GROUP BY time(5m)
 ```
 
-#### Sum by Tag
+#### 依 Tag 加總
 ```influxql
 SELECT 
   sum("bytes") 
@@ -284,9 +295,9 @@ WHERE $timeFilter
 GROUP BY time(1m), "interface"
 ```
 
-### Window Functions
+### 視窗函式
 
-#### Moving Average
+#### 移動平均
 ```influxql
 SELECT 
   moving_average(mean("value"), 10)
@@ -295,7 +306,7 @@ WHERE $timeFilter
 GROUP BY time(1m)
 ```
 
-#### Difference
+#### 差分
 ```influxql
 SELECT 
   difference(mean("counter"))
@@ -304,9 +315,9 @@ WHERE $timeFilter
 GROUP BY time(1m)
 ```
 
-## Elasticsearch Queries
+## Elasticsearch 查詢
 
-### Log Count
+### 錯誤數量
 ```json
 {
   "query": {
@@ -320,7 +331,7 @@ GROUP BY time(1m)
 }
 ```
 
-### Aggregation by Field
+### 依欄位聚合
 ```json
 {
   "aggs": {
@@ -334,7 +345,7 @@ GROUP BY time(1m)
 }
 ```
 
-### Time Series Histogram
+### 時間序列統計
 ```json
 {
   "aggs": {
@@ -348,15 +359,15 @@ GROUP BY time(1m)
 }
 ```
 
-## TestData Queries
+## TestData 查詢
 
-TestData DB is built into Grafana - perfect for learning!
+TestData DB 為 Grafana 內建資料來源，適合學習！
 
 ### Random Walk
 ```
 Scenario: Random Walk
 ```
-Generates realistic-looking time series data.
+產生類似真實指標的時間序列。
 
 ### Predictable CSV
 ```
@@ -371,98 +382,110 @@ String Input: time,value
 ```
 Scenario: USA Generated
 ```
-Generates data with geographic coordinates for the US.
+產生帶有美國地理座標的資料。
 
-## Variables in Queries
+## Loki 查詢（LogQL）
 
-### Using Variables
+### 錯誤日誌
+```logql
+{job="api"} |= "error"
+```
 
-#### Single Selection
+### 每分鐘錯誤數
+```logql
+sum by (level) (rate({job="api"} |= "error" [5m]))
+```
+
+## 查詢中的變數
+
+### 使用變數
+
+#### 單選
 ```sql
 SELECT * FROM metrics WHERE server = '$server'
 ```
 
-#### Multiple Selection
+#### 多選
 ```sql
 SELECT * FROM metrics WHERE server IN ($server)
 ```
 
-#### All Option
+#### 全選
 ```sql
 SELECT * FROM metrics WHERE 
   ('$server' = 'All' OR server = '$server')
 ```
 
-### Variable Queries
+### 變數查詢
 
-#### Get Server List (MySQL)
+#### 取得伺服器清單（MySQL）
 ```sql
 SELECT DISTINCT hostname as __text, hostname as __value
 FROM system_metrics
 ORDER BY hostname
 ```
 
-#### Get Metric Names (Prometheus)
+#### 取得指標名稱（Prometheus）
 ```promql
 label_values(node_cpu_seconds_total, instance)
 ```
 
-#### Chained Variables (MySQL)
+#### 連鎖變數（MySQL）
 ```sql
--- Variable: region
+-- 變數：region
 SELECT DISTINCT region FROM servers
 
--- Variable: server (depends on region)
+-- 變數：server（依 region 篩選）
 SELECT hostname FROM servers WHERE region = '$region'
 ```
 
-## Best Practices
+## 最佳實務
 
-### 1. Always Use Time Filters
+### 1. 一定要使用時間範圍
 ```sql
--- Good
+-- 正確
 WHERE $__timeFilter(timestamp)
 
--- Bad
+-- 錯誤
 WHERE timestamp > '2024-01-01'
 ```
 
-### 2. Use Appropriate Intervals
+### 2. 使用合適的區間
 ```sql
--- For long time ranges, use larger intervals
+-- 長時間範圍使用較大區間
 GROUP BY $__timeGroup(timestamp, '1h')
 
--- For short time ranges, use smaller intervals
+-- 短時間範圍使用較小區間
 GROUP BY $__timeGroup(timestamp, '1m')
 ```
 
-### 3. Limit Result Sets
+### 3. 限制結果
 ```sql
--- Always limit table queries
+-- 表格查詢限制筆數
 LIMIT 1000
 
--- Use TOP N for rankings
+-- 取前 N 名
 ORDER BY value DESC LIMIT 10
 ```
 
-### 4. Use Indexes
+### 4. 使用索引
 ```sql
--- Create indexes on frequently queried columns
+-- 針對常用欄位建立索引
 CREATE INDEX idx_timestamp ON metrics(timestamp);
 CREATE INDEX idx_hostname ON metrics(hostname);
 ```
 
-### 5. Test Queries
-- Test in query editor first
-- Check query execution time
-- Verify results make sense
-- Test with different time ranges
+### 5. 測試查詢
+- 先在查詢編輯器測試
+- 檢查查詢耗時
+- 驗證結果合理性
+- 用不同時間範圍測試
 
-### 6. Document Queries
+### 6. 記錄查詢用途
 ```sql
--- Purpose: Show top 10 slowest API endpoints
--- Updated: 2024-01-15
--- Owner: DevOps Team
+-- 目的：顯示最慢 API 端點
+-- 更新：2024-01-15
+-- 負責人：DevOps Team
 SELECT 
   endpoint,
   AVG(response_time) as avg_time
@@ -473,51 +496,51 @@ ORDER BY avg_time DESC
 LIMIT 10
 ```
 
-## Query Optimization Tips
+## 查詢效能建議
 
 ### MySQL/PostgreSQL
-- Use EXPLAIN to analyze queries
-- Add indexes on WHERE and JOIN columns
-- Use LIMIT to restrict results
-- Use appropriate GROUP BY intervals
-- Consider materialized views for complex queries
+- 使用 EXPLAIN 分析查詢
+- 在 WHERE/JOIN 欄位加索引
+- 使用 LIMIT
+- 調整 GROUP BY 間隔
+- 需要時可使用物化檢視
 
 ### Prometheus
-- Use recording rules for complex queries
-- Avoid large time ranges with small steps
-- Use label selectors to reduce data
-- Aggregate before calculating (sum then rate vs rate then sum)
+- 為複雜查詢建立 recording rules
+- 避免使用太小 step 搭配大時間範圍
+- 以 label selector 減少資料量
+- 先聚合再計算更有效率
 
 ### InfluxDB
-- Use appropriate retention policies
-- Downsample old data
-- Use continuous queries for aggregations
-- Index tags, not fields
+- 設定保留策略
+- 降採樣舊資料
+- 使用連續查詢做聚合
+- 索引 tag 而不是 field
 
-## Troubleshooting
+## 疑難排解
 
-### Query Returns No Data
-- Check time range
-- Verify data exists
-- Check column names
-- Test query outside Grafana
+### 查詢沒有資料
+- 檢查時間範圍
+- 確認資料存在
+- 檢查欄位名稱
+- 於資料庫端測試查詢
 
-### Query Too Slow
-- Add database indexes
-- Reduce time range
-- Increase group interval
-- Use aggregation
-- Check data source load
+### 查詢太慢
+- 建立索引
+- 縮小時間範圍
+- 放大 group interval
+- 使用聚合
+- 檢查資料來源負載
 
-### Query Error
-- Check syntax
-- Verify column names exist
-- Check data types
-- Review Grafana logs
+### 查詢錯誤
+- 檢查語法
+- 確認欄位存在
+- 檢查資料型別
+- 檢查 Grafana 日誌
 
 ---
 
-For more examples, see:
-- [Grafana Documentation](https://grafana.com/docs/)
-- [PromQL Basics](https://prometheus.io/docs/prometheus/latest/querying/basics/)
-- [MySQL Query Optimization](https://dev.mysql.com/doc/refman/8.0/en/optimization.html)
+更多範例可參考：
+- [Grafana 文件](https://grafana.com/docs/)
+- [PromQL 入門](https://prometheus.io/docs/prometheus/latest/querying/basics/)
+- [MySQL 查詢最佳化](https://dev.mysql.com/doc/refman/8.0/en/optimization.html)
